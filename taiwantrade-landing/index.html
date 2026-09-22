@@ -980,18 +980,20 @@ align-items: center;
   flex-direction: column;
   transition: background .3s ease, border-color .3s ease;
 }
-.company__card:hover{
-  background: #fff;
-  border-color: var(--c-brand-secondary);
-}
-.company__card:hover .company__card-cover img{
-  transform: scale(1.126) translateY(-4%);
-}
-.company__card:hover .company__card-link{
-  color: var(--c-brand-secondary);
-}
-.company__card:hover .company__card-link img{
-  content: url('images/company-hover-arrow.svg');
+@media (hover: hover) {
+  .company__card:hover{
+    background: #fff;
+    border-color: var(--c-brand-secondary);
+  }
+  .company__card:hover .company__card-cover img{
+    transform: scale(1.126) translateY(-4%);
+  }
+  .company__card:hover .company__card-link{
+    color: var(--c-brand-secondary);
+  }
+  .company__card:hover .company__card-link img{
+    content: url('images/company-hover-arrow.svg');
+  }
 }
 .company__card-cover{
   width: 100%;
@@ -2552,8 +2554,41 @@ function scrollToId(id){
       if(currentIndex < maxIndex()){ currentIndex += 1; updateCarousel(); }
     });
   }
+
   window.addEventListener('resize', updateCarousel);
   updateCarousel();
+
+    /* ---------------- 手機版：卡片區域支援手指左右滑動 ---------------- */
+  var viewportEl = track ? track.parentElement : null;
+  if(viewportEl){
+    var touchStartX = 0;
+    var touchStartY = 0;
+    var isSwiping = false;
+
+    viewportEl.addEventListener('touchstart', function(e){
+      if(window.innerWidth > 768) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      isSwiping = true;
+    }, { passive: true });
+
+    viewportEl.addEventListener('touchend', function(e){
+      if(!isSwiping) return;
+      isSwiping = false;
+
+      var deltaX = e.changedTouches[0].clientX - touchStartX;
+      var deltaY = e.changedTouches[0].clientY - touchStartY;
+
+      if(Math.abs(deltaX) < 40 || Math.abs(deltaX) < Math.abs(deltaY)) return;
+
+      if(deltaX < 0 && currentIndex < maxIndex()){
+        currentIndex += 1;
+      } else if(deltaX > 0 && currentIndex > 0){
+        currentIndex -= 1;
+      }
+      updateCarousel();
+    }, { passive: true });
+  }
 
 
   
