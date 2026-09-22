@@ -2558,38 +2558,63 @@ function scrollToId(id){
   window.addEventListener('resize', updateCarousel);
   updateCarousel();
 
-    /* ---------------- 手機版：卡片區域支援手指左右滑動 ---------------- */
+  /* ---------------- 手機版：卡片區域支援手指自然拖曳滑動 ---------------- */
   var viewportEl = track ? track.parentElement : null;
   if(viewportEl){
-    var touchStartX = 0;
-    var touchStartY = 0;
-    var isSwiping = false;
+    var dragStartX = 0;
+    var dragStartTime = 0;
+    var dragBaseOffset = 0;
+    var isDragging = false;
+    var currentOffset = 0;
+
+    function getCardStep(){
+      var style = window.getComputedStyle(track);
+      var gap = parseFloat(style.columnGap || style.gap || 0) || 0;
+      return cards[0].getBoundingClientRect().width + gap;
+    }
+
+    function clampOffset(offset){
+      var maxOffset = -maxIndex() * getCardStep();
+      if(offset > 0) return 0;
+      if(offset < maxOffset) return maxOffset;
+      return offset;
+    }
 
     viewportEl.addEventListener('touchstart', function(e){
       if(window.innerWidth > 768) return;
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-      isSwiping = true;
+      isDragging = true;
+      dragStartX = e.touches[0].clientX;
+      dragStartTime = Date.now();
+      dragBaseOffset = -currentIndex * getCardStep();
+      track.style.transition = 'none'; // 拖曳中先關閉動畫，跟手指同步移動
+    }, { passive: true });
+
+    viewportEl.addEventListener('touchmove', function(e){
+      if(!isDragging) return;
+      var deltaX = e.touches[0].clientX - dragStartX;
+      currentOffset = clampOffset(dragBaseOffset + deltaX);
+      track.style.transform = 'translateX(' + currentOffset + 'px)';
     }, { passive: true });
 
     viewportEl.addEventListener('touchend', function(e){
-      if(!isSwiping) return;
-      isSwiping = false;
+      if(!isDragging) return;
+      isDragging = false;
+      track.style.transition = ''; // 恢復動畫，讓最後定位有平滑過渡
 
-      var deltaX = e.changedTouches[0].clientX - touchStartX;
-      var deltaY = e.changedTouches[0].clientY - touchStartY;
+      var deltaX = e.changedTouches[0].clientX - dragStartX;
+      var elapsed = Date.now() - dragStartTime;
+      var velocity = deltaX / elapsed; // 平均滑動速度（px/ms）
+      var cardStep = getCardStep();
 
-      if(Math.abs(deltaX) < 40 || Math.abs(deltaX) < Math.abs(deltaY)) return;
-
-      if(deltaX < 0 && currentIndex < maxIndex()){
-        currentIndex += 1;
-      } else if(deltaX > 0 && currentIndex > 0){
-        currentIndex -= 1;
+      var moveBy = 0;
+      // 滑得快（快速甩動）就算一次動作切一張；滑得慢則依滑動距離是否過半決定切不切
+      if(Math.abs(velocity) > 0.5){
+        moveBy = deltaX < 0 ? 1 : -1;
+      } else if(Math.abs(deltaX) > cardStep / 2){
+        moveBy = deltaX < 0 ? 1 : -1;
       }
-      updateCarousel();
-    }, { passive: true });
-  }
 
+      currentIndex = Math.min(Math.max(currentIndex + moveBy,
 
   
 
