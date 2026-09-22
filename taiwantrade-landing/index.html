@@ -1756,9 +1756,28 @@ margin-bottom: 144px;
     row-gap: 80px;
   }
 
-  .company__head     { grid-area: head; }
-  .company__nav      { grid-area: nav; align-self: self-end; padding-right: 64px;}
-  .company__viewport { grid-area: viewport; }
+  .company__head      { grid-area: head; }
+  .company__nav       { grid-area: nav; align-self: self-end; padding-right: 64px; }
+  .company__viewport  { grid-area: viewport; }
+
+  /* nav 隱藏時（卡片已全部顯示）：標題與卡片改為單欄置中 */
+  .company-sec.company-sec--nav-hidden {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "head"
+      "viewport";
+  }
+  .company-sec--nav-hidden .company__head {
+    justify-content: center;
+    text-align: center;
+  }
+  .company-sec--nav-hidden .company__head-text {
+    align-items: center;
+  }
+  .company-sec--nav-hidden .company__track {
+    justify-content: center;
+    padding-left: 0;
+  }
 }
 
 /* 手機橫向時，讓 lightbox 面板佔滿整個畫面，影片區域最大化 */
@@ -2506,9 +2525,13 @@ function scrollToId(id){
 
   /* 當左右按鈕都無法操作（代表所有卡片已完整顯示），隱藏整個 nav */
   var navEl = document.querySelector('.company__nav');
+  var companySec = document.querySelector('.company-sec');
+  var bothDisabled = maxIndex() <= 0; // 沒有可切換的空間，代表全部卡片都已顯示
   if(navEl){
-    var bothDisabled = maxIndex() <= 0; // 沒有可切換的空間，代表全部卡片都已顯示
     navEl.style.display = bothDisabled ? 'none' : 'flex';
+  }
+  if(companySec){
+    companySec.classList.toggle('company-sec--nav-hidden', bothDisabled);
   }
 
   if(progressBar){
