@@ -2614,7 +2614,10 @@ function scrollToId(id){
         moveBy = deltaX < 0 ? 1 : -1;
       }
 
-      currentIndex = Math.min(Math.max(currentIndex + moveBy,
+      currentIndex = Math.min(Math.max(currentIndex + moveBy, 0), maxIndex());
+      updateCarousel();
+    });
+  }
 
   
 
