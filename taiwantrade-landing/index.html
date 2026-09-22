@@ -1,0 +1,2629 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台灣經貿網 TaiwanTrade － 為臺灣企業開啟全球貿易大門</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   0. Reset & Base
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body, h1, h2, h3, p, ul, li, figure { margin: 0; padding: 0; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+button { font: inherit; border: none; background: none; cursor: pointer; }
+a { text-decoration: none; color: inherit; }
+input { font: inherit; border: none; outline: none; }
+
+:root{
+  /* colors */
+  --c-text-primary:#34465d;
+  --c-text-secondary:#5c6e87;
+  --c-text-tertiary:#7c8a9e;
+  --c-text-link:#1e90e3;
+  --c-brand-secondary:#3aa4f4;
+  --c-brand-light:#ebf5ff;
+  --c-accent-teal:#34c8aa;
+  --c-accent-orange:#fca90e;
+  --c-status-success:#3fc662;
+  --c-status-info:#2faec7;
+  --c-white:#ffffff;
+  --c-danger:#ff2d5e;
+  /* radius */
+  --r-bg:24px;
+  --r-card:12px;
+  /* font: Latin/numbers render in Montserrat, CJK falls back to Noto Sans TC automatically */
+  --font-tc:'Montserrat', 'Noto Sans TC', sans-serif;
+  --font-en:'Montserrat', sans-serif;
+  /* font sizes (desktop) */
+  --fs-xs:16px;
+  --fs-sm:18px;
+  --fs-md:20px;
+  --fs-lg:22px;
+  --fs-xl:24px;
+  --fs-2xl:28px;
+  --fs-3xl:32px;
+  --fs-4xl:40px;
+  --fs-5xl:clamp(32px, 3.6vw, 48px);
+  --fs-6xl:clamp(32px, 4.2vw, 56px);
+  --fs-7xl:clamp(38px, 4.6vw, 60px);
+  --fs-8xl:clamp(40px, 5vw, 64px);
+  --fs-9xl:clamp(44px, 6.2vw, 80px);
+  --fs-10xl:clamp(64px, 9vw, 120px);
+  /* layout */
+  --container-max:1440px;
+  --gutter:80px;
+}
+
+body{
+  font-family: var(--font-tc);
+  color: var(--c-text-primary);
+  background:#F6F8FB;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.container{
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.en{ font-family: var(--font-en); }
+
+.section-eyebrow{
+  font-family: var(--font-en);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.36px;
+  color: var(--c-text-primary);
+  opacity: .5;
+}
+.section-heading{
+  font-family: var(--font-tc);
+  font-weight: 700;
+  font-size: var(--fs-6xl);
+  letter-spacing: 1.12px;
+  line-height: 1.4;
+  color: var(--c-text-primary);
+}
+
+/* ==========================================================================
+   1. Header / Anchor Nav
+   ========================================================================== */
+.site-header{
+  
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: transparent;
+  pointer-events: none;
+}
+.site-header__inner{
+  position: relative;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 20px var(--gutter);
+}
+.nav-anchor{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 12px;
+}
+.site-header__logo{
+  height: 42px;
+  pointer-events: auto;
+}
+.site-header__logo img{ height: 100%; width: auto; }
+
+.nav-anchor{
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  border-radius: var(--r-card);
+  border: 1px solid #fff;
+  background: linear-gradient(105deg, rgba(255,255,255,0.8) 2%, rgba(255,255,255,0.8) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 24px 48px 0 rgba(25,52,72,0.16);
+  padding: 0 20px;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow: visible;
+  scrollbar-width: none;
+}
+.nav-anchor::-webkit-scrollbar{ display:none; }
+.nav-anchor__btn{
+  position: relative;
+  flex-shrink: 0;
+  padding: 20px;
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.36px;
+  color: var(--c-text-tertiary);
+  white-space: nowrap;
+  transition: color .2s ease;
+}
+.nav-anchor__btn:hover{
+  color: var(--c-brand-secondary);
+}
+.nav-anchor__btn.is-active{
+  font-weight: 800;
+  color: var(--c-text-primary);
+}
+.nav-anchor__btn.is-active::after{
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  transform: translateX(-50%);
+  width: 72px;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(76deg, #375f8b 19%, #27374c 76%);
+}
+
+.site-header__cta{
+  pointer-events: auto;
+  position: absolute;
+  top: -100px;
+  right: -60px;
+  width: 250px;
+  height: 250px;
+  border-radius: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px;
+  background: linear-gradient(180deg, #ffd725 0%, #ffbe25 59%);
+  box-shadow: 0 16px 32px rgba(249,191,21,0.5);
+  color: var(--c-text-primary);
+  font-weight: 700;
+  font-size: var(--fs-xl);
+  letter-spacing: 0.48px;
+  line-height: 1.4;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-40px);
+  transition: opacity .5s ease-out, transform .5s ease-out;
+}
+.site-header__cta.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   2. Sec_KV (Hero)
+   ========================================================================== */
+.kv{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 56px;
+  padding: 140px var(--gutter) 160px;
+  overflow: hidden;
+  isolation: isolate;
+    background: linear-gradient(213deg, rgba(47,183,254,0.3) 2.6%, rgba(217,242,255,0) 57% );
+
+}
+.kv__main{
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  min-width: 2160px;
+  max-width: none;
+  height: auto;
+  z-index: -2;
+  pointer-events: none;
+}
+.kv__bg{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.kv__bg-glow{
+  position: absolute;
+  left: 0;
+  top: 449px;
+  width: 100%;
+  height: 507px;
+  opacity: .3;
+  background: linear-gradient(180deg, rgba(255,239,149,0) 0%, #fbe048 82%);
+}
+.kv__bg-wave{
+  position: absolute;
+  left: 0;
+  height: 465px;
+  bottom: 0%;
+  width: 100%;
+
+  object-fit: fill;
+}
+.kv__bg-tint{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 649px;
+  opacity: .3;
+  background: linear-gradient(213deg, rgba(47,183,254,1) 2.6%, rgba(217,242,255,0) 57%);
+}
+.kv__title-wrap{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  max-width: 960px;
+  padding: 0 40px;
+}
+.kv__logo{
+  width: 190px;
+  margin-bottom: 16px;
+}
+.kv__logo img{ width: 100%; height: auto; display: block; }
+
+.kv__heading{
+  font-family: var(--font-tc);
+  color: var(--c-text-primary);
+}
+.kv__heading .line1{
+  display: block;
+  font-weight: 700;
+  font-size: var(--fs-5xl);
+  letter-spacing: 0.96px;
+  line-height: 1.4;
+  background: linear-gradient(76deg, #375f8b 19%, #27374c 76%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.kv__heading .line2{
+  display: block;
+  font-weight: 800;
+  font-size: var(--fs-9xl);
+  letter-spacing: 1.6px;
+  line-height: 1.4;
+  background: linear-gradient(68deg, #375f8b 19%, #27374c 76%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.kv__resource{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 28px;
+}
+.kv__resource-title{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-weight: 700;
+  font-size: var(--fs-lg);
+  letter-spacing: 0.44px;
+}
+.kv__resource-title .teal{ color: var(--c-accent-teal); }
+.kv__resource-title .orange{ color: var(--c-accent-orange); }
+.kv__resource-title img{ width: 14px; height: 14px; }
+.kv__subtitle{
+  font-weight: 400;
+  font-size: var(--fs-lg);
+  letter-spacing: 0.44px;
+  line-height: 1.6;
+}
+
+.kv__keydata{
+  position: relative;
+  width: 100%;
+  display: flex;
+  max-width: 1320px;
+
+  justify-content: center;
+
+}
+.kv__apply-cta{
+  position: absolute;
+  right: 10%;
+  top: -140px;
+  width: 250px;
+  height: 250px;
+  border-radius: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+  padding-bottom: 120px;
+  background: linear-gradient(180deg, #ffd725 0%, #ffbe25 59%);
+  box-shadow: 0 16px 32px rgba(249,191,21,0.5);
+  text-align: center;
+  font-weight: 700;
+  font-size: var(--fs-xl);
+  letter-spacing: 0.48px;
+  color: var(--c-text-primary);
+  line-height: 1.4;
+  z-index: 0;
+  border: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.kv__apply-cta:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 16px 32px rgba(249,191,21,0.6);
+}
+
+.kv__keydata-card{
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-radius: var(--r-bg);
+  border: 1px solid #fff;
+  background: linear-gradient(102deg, rgba(255,255,255,0.5) 2%, rgba(255,255,255,0.8) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 40px 80px 0 rgba(59,135,198,0.2);
+  padding: 57px 41px 61px;
+  gap: 24px;
+}
+.kv__stat{
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+.kv__stat-value{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.kv__stat-value .num{
+  font-family: var(--font-en);
+  font-weight: 500;
+  font-size: var(--fs-8xl);
+  letter-spacing: 1.28px;
+  background: linear-gradient(180deg, #456797, #34465d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.kv__stat-value .unit{
+  font-family: var(--font-en);
+  font-weight: 700;
+  font-size: var(--fs-3xl);
+  color: var(--c-text-primary);
+}
+.kv__stat-label{
+  font-weight: 400;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.36px;
+  opacity: .8;
+}
+.kv__divider{
+  align-self: stretch;
+  width: 1px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, rgba(48,71,96,0) 0%, #304760 20%, #304760 80%, rgba(48,71,96,0) 100%);
+  opacity: .2;
+}
+.kv__more-btn{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  bottom: -110px;
+  width: 160px;
+  height: 160px;
+  border-radius: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-top: 50px;
+  background: linear-gradient(149deg, #55bdf4 20%, #0993fb 87%);
+  box-shadow: 0 8px 30px rgba(9,147,251,0.4);
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.36px;
+  z-index: 2;
+  cursor: pointer;
+  transition: box-shadow .25s ease;
+}
+.kv__more-btn img{
+  width: 40px;
+  height: 40px;
+  transition: transform .5s ease;
+}
+@media (hover: hover) {
+  .kv__more-btn:hover{
+    box-shadow: 0 10px 34px rgba(9,147,251,0.55);
+  }
+  .kv__more-btn:hover img{
+    animation: kv-chevron-bounce .8s ease-in-out infinite;
+  }
+}
+
+@keyframes kv-chevron-bounce{
+  0%, 100%{ transform: translateY(0); }
+  50%{ transform: translateY(6px); }
+}
+
+/* ==========================================================================
+   3. Sec_Tabs
+   ========================================================================== */
+.tabs-sec{
+  position: relative;
+  overflow: hidden;
+  background: #e2f1f5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 160px 0 80px var(--gutter);
+  gap: 0;
+}
+.tabs-sec__deco{
+  position: absolute;
+  right: -660px;
+  top: -80px;
+  width: 900px;
+  height: 740px;
+  z-index: 0;
+  pointer-events: none;
+}
+.tabs__area{
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: 48px 40px 48px 0;
+  position: relative;
+  z-index: 1;
+}
+.tabs__inner{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 56px;
+  width: 388px;
+  max-width: 100%;
+}
+.tabs__eyebrow-wrap{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 8px;
+}
+.tabs__heading{
+  font-weight: 700;
+  font-size: var(--fs-6xl);
+  letter-spacing: 1.12px;
+  line-height: 1.4;
+  width: 100%;
+}
+.tabs__btn-group{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+}
+.tabs__btn{
+  padding: 20px 28px;
+  border-radius: 42px;
+  font-weight: 600;
+  font-size: var(--fs-md);
+  letter-spacing: 0.4px;
+  color: var(--c-text-primary);
+  opacity: .8;
+  transition: all .2s ease;
+}
+.tabs__btn.is-active{
+  background: var(--c-text-primary);
+  color: #fff;
+  opacity: 1;
+  box-shadow: 0 4px 20px rgba(67,80,91,0.2);
+}
+
+.tabs__content-wrap{
+  flex: 0 0 54vw;
+  max-width: 100%;
+  position: relative;
+  z-index: 1;
+}
+.tabs__panel{
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .18s ease-out, transform .18s ease-out;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: linear-gradient(93deg, rgba(255,255,255,0.4) 2%, rgba(255,255,255,0.6) 100%);
+  border: 1px solid #fff;
+  border-radius: 24px 0 0 24px;
+  box-shadow: 0 40px 80px 0 rgba(187,211,218,0.2);
+  padding: 0 0 64px 72px;
+  gap: 48px;
+  flex-direction: column;
+}
+.tabs__panel.is-active{ display: flex; }
+.tabs__panel.is-visible{ opacity: 1; transform: translateY(0); }
+.tabs__step{
+  max-width: 480px;
+  padding-left: 24px;
+}
+.tabs__step-inner{
+  height: 80px;
+  align-content: end;
+  position: relative;
+}
+
+.tabs__step-num{
+  position: absolute;
+  bottom: 0;
+  font-family: var(--font-en);
+  font-weight: 400;
+  font-size: var(--fs-10xl);
+  letter-spacing: 2.4px;
+  line-height: 1;
+  background: linear-gradient(169deg, #55bdf4 20%, #0993fb 87%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding-top: 48px;
+  /* 1. 設定背景為漸層色（方向與顏色可自由調整） */
+  background: linear-gradient(-135deg, #89E9BC 0%, #4FADF3 100%);
+
+  /* 2. 將背景裁切至文字形狀（需加上 -webkit- 前綴以相容主流瀏覽器） */
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  /* 3. 將文字本身的顏色設為透明，露出底下的漸層背景 */
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.tabs__title{
+  font-weight: 700;
+  font-size: var(--fs-2xl);
+  letter-spacing: 0.56px;
+  padding: 16px 10px 0;
+}
+.tabs__desc{
+  font-weight: 400;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.32px;
+  opacity: .5;
+  padding: 16px 10px 0;
+  line-height: 1.6;
+}
+.tabs__detail{
+  max-width: 480px;
+  background: #fff;
+  border: 2px solid var(--c-brand-secondary);
+  border-radius: var(--r-card);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+.tabs__tags{
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tabs__tag{
+  background: var(--c-brand-light);
+  color: var(--c-brand-secondary);
+  font-family: var(--font-en);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.32px;
+  padding: 8px 16px;
+  border-radius: 40px;
+}
+.tabs__detail-text{
+  font-weight: 500;
+  font-size: var(--fs-md);
+  letter-spacing: 0.4px;
+  line-height: 1.6;
+  padding: 0 4px;
+}
+
+/* ==========================================================================
+   4. Sec_HighLight
+   ========================================================================== */
+.highlight-sec{ position: relative; overflow: hidden; }
+.highlight-sec__head{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 180px var(--gutter);
+  background: linear-gradient(180deg, #e2f1f5, #f5f0e2);
+  text-align: center;
+}
+.highlight-sec__deco-left{
+  position: absolute;
+  left: -400px;
+  top: -290px;
+  width: 900px;
+  height: 740px;
+  pointer-events: none;
+}
+.highlight-sec__yellow-dot{
+  position: absolute;
+  right: 204px;
+  top: 400px;
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+}
+.highlight-sec__content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 72px;
+  padding: 0px;
+}
+.highlight{
+  position: relative;
+  width: 100%;
+padding: 0 80px;
+  display: flex;
+  align-items: stretch;
+  min-height: 560px;
+  justify-content: center;
+}
+.highlight--reverse{ flex-direction: row-reverse; }
+.highlight__wave{
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
+}
+.highlight__panel{
+  position: absolute;
+  top: 0;
+  width: 70vw;
+  height: 560px;
+  z-index: 0;
+  pointer-events: none;
+}
+.highlight__bg{
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 1000px;
+  overflow: hidden;
+  border-radius: 24px;
+}
+.highlight__bg img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 500px;
+}
+.highlight__content{
+  position: relative;
+  z-index: 1;
+  flex: 0 0 480px;
+  max-width: 100%;
+  display: flex;
+  align-items: start;
+  padding: 120px 0;
+}
+
+.highlight__content--orange{
+align-items: center;
+}
+
+.highlight__card{
+  width: 100%;
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid #fff;
+  box-shadow: 0 40px 40px rgba(160,176,180,0.2);
+  padding: 56px 36px 56px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: #fff;
+}
+.highlight__card-title{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.highlight__card-title h3{
+  font-weight: 700;
+  font-size: var(--fs-2xl);
+  letter-spacing: 0.56px;
+  line-height: 1.4;
+}
+.highlight__tag{
+  align-self: flex-start;
+  background: #fff;
+  padding: 8px 16px;
+  border-radius: 40px;
+  font-family: var(--font-en);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.36px;
+}
+.highlight__list{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.highlight__list li{
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-weight: 500;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.36px;
+  line-height: 1.6;
+}
+.highlight__list img{ width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px; }
+
+.highlight-1 .highlight__bg{ border-radius: 0 24px 24px 0; }
+.highlight-2 .highlight__bg,
+.highlight-4 .highlight__bg{ border-radius: 24px 0 0 24px; }
+.highlight-3 .highlight__bg{ border-radius: 0 24px 24px 0; }
+
+.highlight-1 .highlight__panel{
+  left: 0;
+  border-radius: 0 24px 24px 0;
+  background: linear-gradient(84.5deg, #f8f7f2 1.4%, #e7f7f7 100%);
+}
+.highlight-2 .highlight__panel{
+  right: 0;
+  border-radius: 24px 0 0 24px;
+  background: linear-gradient(84.5deg, #f3f2f8 48.1%, #f7eee7 100%);
+}
+.highlight-3 .highlight__panel{
+  left: 0;
+  border-radius: 0 24px 24px 0;
+  background: linear-gradient(84.5deg, #f7f4e5 1.4%, #e7f7f7 100%);
+}
+.highlight-4 .highlight__panel{
+  right: 0;
+  top: 105px;
+  border-radius: 24px 0 0 24px;
+  background: linear-gradient(84.5deg, #f5f8f2 1.4%, #f7f3ee 100%);
+}
+.highlight-3 , .highlight-1{
+  padding: 0 80px 0 0;
+}
+.highlight-2 , .highlight-4{
+  padding: 0 0 0 80px;
+}
+
+
+
+.highlight__card--blue{ background: linear-gradient(47deg, #4facf2 15%, #7fd0fa 63%); }
+.highlight__tag--blue{ color: #3aa4f4; }
+.highlight__card--purple{ background: linear-gradient(204deg, #f5b6ff 13%, #9ab6fb 86%); }
+.highlight__tag--purple{ color: #ad7ce8; }
+.highlight__card--green{ background: linear-gradient(14deg, #91cb61 1%, #85e396 100%); }
+.highlight__tag--green{ color: #5fae68; }
+.highlight__card--orange{ background: linear-gradient(203deg, #f5d452 13%, #fe9559 86%); }
+.highlight__tag--orange{ color: #fc902c; }
+.highlight__card-title h3{padding: 0 0 0 6px;}
+
+.highlight-sec__cta{
+  display: flex;
+  justify-content: center;
+  padding: 40px var(--gutter);
+}
+.btn-pill{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--c-text-primary);
+  color: #fff;
+  padding: 22px 32px;
+  border-radius: 60px;
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.36px;
+  box-shadow: 0 12px 20px rgba(47,51,65,0.16);
+  z-index: 2;
+}
+.btn-pill img{ width: 24px; height: 24px; }
+
+/* ==========================================================================
+   5. Sec_Company (Carousel)
+   ========================================================================== */
+.company-sec{
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
+  padding: 100px 0;
+}
+.company-sec__deco{
+  position: absolute;
+  right: -260px;
+  top: 40px;
+  width: 900px;
+  height: 800px;
+  pointer-events: none;
+}
+.company__head{
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.company__head-text{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.company__nav{
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  align-self: flex-start;
+  padding-left: 48px;
+  z-index: 3;
+}
+.company__nav-btn{
+  width: 80px;
+  height: 80px;
+  border-radius: 100px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 20px rgba(47,51,65,0.08);
+  transition: opacity .2s ease;
+}
+.company__nav-btn img{ width: 28px; height: 28px; }
+.company__nav-btn:disabled{
+  opacity: .5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.company__progress{
+  position: relative;
+  width: 80px;
+  height: 6px;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.16);
+  overflow: hidden;
+}
+.company__progress-bar{
+  position: absolute;
+  top: -1px;
+  left: 0;
+  height: 8px;
+  width: 16px;
+  border-radius: 2px;
+  background: linear-gradient(31deg, #63bcff 15%, #8ad7ff 63%);
+  transition: transform .3s ease;
+}
+.company__viewport{
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  overflow: hidden;
+}
+.company__track{
+  display: flex;
+  gap: 40px;
+  padding-left: var(--gutter);
+  transition: transform .4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.company__card{
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  flex: 0 0 min(420px, 82vw);
+  max-width: min(420px, 82vw);
+  border-radius: 24px;
+  overflow: hidden;
+  border: 2px solid transparent;
+
+}
+
+.company__card-inner{
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.6);
+  box-shadow: 0 16px 40px 0 rgba(91,91,91,0.04);
+  display: flex;
+  flex-direction: column;
+  transition: background .3s ease, border-color .3s ease;
+}
+.company__card:hover{
+  background: #fff;
+  border-color: var(--c-brand-secondary);
+}
+.company__card:hover .company__card-cover img{
+  transform: scale(1.126) translateY(-4%);
+}
+.company__card:hover .company__card-link{
+  color: var(--c-brand-secondary);
+}
+.company__card:hover .company__card-link img{
+  content: url('images/company-hover-arrow.svg');
+}
+.company__card-cover{
+  width: 100%;
+  aspect-ratio: 420 / 240;
+  overflow: hidden;
+  position: relative;
+  background: #eef3f4;
+}
+.company__card-cover img{ width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.company__card-body{
+  padding: 18px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-top: 1px solid #e3eaeb;
+}
+.company__card-top{
+  display: flex;
+  gap: 10px;
+  padding: 0 2px;
+}
+.company__card-logo{
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  border: 1px solid #e8f0f2;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #fff;
+}
+.company__card-logo img{ width: 100%; height: 100%; object-fit: cover; }
+.company__card-heading{
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 2px;
+  min-width: 0;
+}
+.company__card-tag{
+  align-self: flex-start;
+  background: var(--c-brand-light);
+  color: var(--c-brand-secondary);
+  font-family: var(--font-en);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.32px;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+.company__card-name{
+  font-weight: 700;
+  font-size: var(--fs-lg);
+  letter-spacing: 0.44px;
+  line-height: 1.4;
+}
+.company__card-desc{
+  font-weight: 400;
+  font-size: var(--fs-xs);
+  color: var(--c-text-secondary);
+  letter-spacing: 0.32px;
+  line-height: 1.6;
+  padding: 0 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  min-height: calc(1.6em * 3);
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.company__card-stats{
+  background: #f2f5f3;
+  border-radius: 8px;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.company__card-stat{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+  font-size: var(--fs-xs);
+  color: var(--c-text-secondary);
+  letter-spacing: 0.32px;
+}
+.company__card-stat img{ width: 24px; height: 24px; flex-shrink: 0; }
+.company__card-link{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 12px;
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.36px;
+  transition: color .3s ease;
+}
+.company__card-link img{ width: 24px; height: 24px; }
+
+/* ==========================================================================
+   6. Sec_Step
+   ========================================================================== */
+.step-sec{
+  position: relative;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  padding: 120px var(--gutter) 0;
+}
+.step-sec__deco{
+  position: absolute;
+  left: -500px;
+  bottom: -269px;
+  width: 900px;
+  height: 740px;
+  pointer-events: none;
+}
+.step-sec__inner{
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+.step-sec__title{
+  flex: 1 1 0;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.step-list{
+  flex: 1.4 1 0;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+}
+.step{
+  display: flex;
+  gap: 40px;
+  align-items: stretch;
+}
+.step__body--4{
+margin-bottom: 144px;
+}
+
+.step__num{
+  flex-shrink: 0;
+  width: 44px;
+  font-family: var(--font-en);
+  font-size: var(--fs-7xl);
+  text-align: center;
+  line-height: 1;
+}
+.step__line{
+  width: 2px;
+  flex-shrink: 0;
+  opacity: .5;
+}
+.step__body{
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 12px 0 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.step__title{
+  font-weight: 700;
+  font-size: var(--fs-lg);
+  letter-spacing: 0.44px;
+}
+.step__desc{
+  font-weight: 400;
+  font-size: var(--fs-xs);
+  color: var(--c-text-secondary);
+  letter-spacing: 0.32px;
+  line-height: 1.6;
+}
+.step--1 .step__num, .step--1 .step__title{ color: var(--c-status-success); }
+.step--1 .step__line{ background: linear-gradient(180deg, #3fc662, #34c8aa); }
+.step--2 .step__num, .step--2 .step__title{ color: var(--c-accent-teal); }
+.step--2 .step__line{ background: linear-gradient(180deg, #34c8aa, #2faec6); }
+.step--3 .step__num, .step--3 .step__title{ color: var(--c-status-info); }
+.step--3 .step__line{ background: linear-gradient(180deg, #2faec6, #1e90e3); }
+.step--4 .step__num, .step--4 .step__title{ color: var(--c-text-link); }
+.step--4 .step__line{ background: #1e90e3; }
+.step--4 .step__body{ padding-bottom: 0; }
+
+/* ==========================================================================
+   7. Sec_Frame (Form)
+   ========================================================================== */
+.form-sec{
+  display: flex;
+  justify-content: center;
+  padding: 0 80px;
+}
+.form-card{
+  width: 100%;
+  border-radius: 24px;
+  background: #e9f0f7;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 80px 40px 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+}
+.form-card__head{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.form-card__head h2{
+  font-weight: 700;
+  font-size: var(--fs-4xl);
+  letter-spacing: 0.8px;
+  color: var(--c-brand-secondary);
+}
+.form-body{
+  width: 100%;
+  max-width: 1360px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 0 40px;
+}
+.form-grid{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+}
+.form-field{
+  flex: 1 1 320px;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.form-field--fixed{ 
+  flex: 0 1 calc((100% - 96px)/3); 
+}
+.form-field__label{
+  display: flex;
+  gap: 8px;
+  padding: 0 20px;
+  font-weight: 700;
+  font-size: var(--fs-md);
+  letter-spacing: 0.4px;
+}
+.form-field__label .req{ color: var(--c-danger); }
+.form-field__input{
+  width: 100%;
+  background: rgba(255,255,255,0.6);
+  border: 1.5px solid transparent;
+  border-radius: var(--r-card);
+  padding: 20px;
+  font-family: var(--font-en);
+  font-weight: 500;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.36px;
+  color: var(--c-text-secondary);
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+.form-field__input::placeholder{ color: #5c6e87; opacity: .6; }
+.form-field__input:not(:placeholder-shown){
+  background: #fff;
+  color: var(--c-text-primary);
+}
+.form-field__input:focus{
+  background: #fff;
+  border-color: var(--c-brand-secondary);
+  color: var(--c-text-primary);
+}
+.form-field__hint{
+  padding: 8px 20px 0;
+  font-family: var(--font-en);
+  font-weight: 500;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.32px;
+  color: #a0b3cc;
+}
+.form-privacy{
+  background: #dfe8f1;
+  border-radius: var(--r-card);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.form-privacy p{
+  font-weight: 400;
+  font-size: var(--fs-xs);
+  color: var(--c-text-secondary);
+  letter-spacing: 0.32px;
+  line-height: 1.6;
+}
+.form-checkbox{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.form-checkbox input{ display: none; }
+.form-checkbox__box{
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.form-checkbox__box img{ width: 24px; height: 24px; opacity: .25; transition: opacity .2s ease; }
+.form-checkbox input:checked + .form-checkbox__box img{ opacity: 1; }
+.form-checkbox span{
+  font-weight: 400;
+  font-size: var(--fs-xs);
+  color: var(--c-text-secondary);
+  letter-spacing: 0.32px;
+  line-height: 1.6;
+}
+.form-submit-wrap{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.btn-submit{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--c-text-primary);
+  color: #fff;
+  padding: 22px 32px;
+  border-radius: 60px;
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.36px;
+  box-shadow: 0 12px 20px rgba(47,51,65,0.16);
+}
+.btn-submit img{ width: 24px; height: 24px; }
+.btn-submit:disabled{ opacity: .6; cursor: not-allowed; }
+.form-submit-hint{
+  font-weight: 500;
+  font-size: var(--fs-xs);
+  color: #a0b3cc;
+  letter-spacing: 0.32px;
+}
+.form-msg{
+  font-weight: 500;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.32px;
+  text-align: center;
+  min-height: 1.4em;
+}
+.form-msg--error{ color: var(--c-danger); }
+.form-msg--success{ color: var(--c-status-success); }
+
+/* ==========================================================================
+   8. Footer
+   ========================================================================== */
+.site-footer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 80px var(--gutter);
+}
+.site-footer__logos{
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.site-footer__logos img{ height: 38px; width: auto; }
+.site-footer__divider{
+  width: 1px;
+  height: 40px;
+  background: #c0d1d5;
+}
+.site-footer p{
+  font-family: var(--font-en);
+  font-weight: 400;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.32px;
+  color: var(--c-text-secondary);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   8b. Video Lightbox
+   ========================================================================== */
+.video-lightbox{
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s ease;
+}
+.video-lightbox.is-open{
+  opacity: 1;
+  visibility: visible;
+}
+.video-lightbox__backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  cursor: pointer;
+}
+.video-lightbox__panel{
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  background: #F6F8FB;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.3);
+  transform: scale(0.95);
+  transition: transform .25s ease;
+}
+.video-lightbox.is-open .video-lightbox__panel{
+  transform: scale(1);
+}
+.video-lightbox__close{
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: transform .2s ease;
+}
+.video-lightbox__close:hover{ transform: scale(1.08); }
+.video-lightbox__close svg{ width: 40px; height: 40px; }
+.video-lightbox__frame{
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+}
+.video-lightbox__frame iframe{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+
+/* ==========================================================================
+   9. Tablet (≤1080px)
+   ========================================================================== */
+@media (max-width: 1080px){
+  :root{ --gutter: 48px; }
+
+  .site-header__cta{ width: 160px; height: 160px; top: -50px; right: -40px; padding-top: 40px; font-size: 18px; }
+  .nav-anchor{ padding: 0 16px; }
+  .nav-anchor__btn{ padding: 18px 14px; font-size: 16px; }
+  .nav-anchor__btn.is-active::after{ bottom: -2px; width: 64px; }
+
+  .kv{padding: 110px 24px 120px; }
+  .kv__apply-cta{ width: 180px; height: 180px; padding-bottom: 88px; top: -110px; font-size: var(--fs-md); }
+  .kv__keydata-card{ flex-wrap: wrap; padding: 48px 32px;border-radius: 20px; }
+  .kv__stat{ flex: 1 1 20%; }
+  .kv__title-wrap{padding: 0 64px;}
+  .kv__divider{ display: none; }
+  .kv__more-btn{ width: 136px; height: 136px; bottom: -90px; padding-top: 48px; font-size: var(--fs-xs); }
+  .kv__more-btn img{ width: 32px; height: 32px; }
+/* ======
+  首頁背景
+  =====================*/
+  .kv__main{width: 70%; min-width: 1560px;}
+  .kv__bg-wave{height: 240px;}
+
+
+  .tabs-sec{
+    padding: 120px 0 64px;
+  }
+  .tabs__area{
+    padding: 24px 0 24px 0;
+    width: 280px;
+  }
+
+  .tabs__panel{
+   padding: 0 20px 40px 40px; 
+   gap:16px;
+  }
+  .tabs__inner{
+    gap:40px;
+    width: 88%;
+  }
+  .tabs__content-wrap{
+    flex: 0 0 64vw;
+  }
+  .tabs__step{
+    padding-left: 20px;
+  }
+  .tabs__step-inner{
+    height: 56px;
+  }
+  .tabs__detail{
+    padding: 16px 22px 22px 22px;
+    width: 100%;
+  }
+  .tabs__detail-text{
+    font-size: var(--fs-sm);
+  }
+  .tabs__btn{
+    padding: 14px 18px;
+    font-size: 18px;
+  }
+  .tabs__btn-group{
+    gap: 8px;
+  }
+
+  .highlight-sec{overflow: visible;}
+  .highlight-sec__head{ padding: 120px 48px; }
+  .highlight-sec__content{ padding: 0 ; gap: 56px; }
+  .highlight, .highlight--reverse{ min-height: 0; width: 100%; }
+  .highlight-1, .highlight-2, .highlight-3, .highlight-4{padding: 0;}
+  .highlight__card-title h3{font-size:var(--fs-lg) ;}
+  .highlight__panel{height: 380px;}
+  .highlight__bg{ width: 100%; border-radius: 24px !important; min-height: 320px; }
+  .highlight__content{ flex-basis: auto; width:40%; padding: 0; padding: 0 24px;margin-top: 32px; }
+  .highlight__card{ padding: 28px 24px; border-radius: 24px; gap: 16px;}
+  .highlight-sec__deco-left{width: 720px; height: 640px; left:-300px}
+  .highlight__list{gap: 6px;}
+  .highlight__tag{padding: 6px 14px;}
+  .highlight-4 .highlight__panel{top: 50px;}
+  .highlight__content--orange, .highlight__content--purple{padding-right: 0;}
+  .highlight__content--green, .highlight__content--blue{padding-left: 0;}
+  .highlight__list img{width: 20px; height: 20px;}
+  .highlight__list li{font-size: 15px;}
+
+
+  .company-sec{ padding: 80px 0; gap: 56px; }
+  .company__head{padding: 0 64px;}
+  .company__track{gap: 24px;}
+  .company__card{max-width: min(360px, 82vw); border-radius: 20px;}
+  .company-sec__deco{width: 720px;height: 640px; right: -240px; top: 80px;}
+  .company__card-body{padding: 14px 12px 16px;}
+  .company__card-name{font-size: var(--fs-md);}
+  .company__card-logo{width: 64px;height: 64px;}
+  .company__card-tag{padding: 4px 8px;}
+  .company__card-desc{font-size: 15px;}
+  .company__card-stat{font-size: 15px;}
+
+  .step-sec{ padding: 100px 48px 0; }
+  .step-sec__inner{ flex-direction: row; gap: 32px; }
+  .step-sec__title{ min-width: 0; padding-left: 40px; max-width: 260px;}
+  .step-list{ min-width: 0; width: 100%; }
+
+  .form-sec{ padding: 0 24px 24px; }
+  .form-card{ padding: 56px 32px 48px; }
+  .form-body{ padding: 0; }
+  .form-grid{gap: 32px;}
+  .form-field__input{padding: 16px;}
+  .form-field__label{padding: 0 16px; font-size:var(--fs-sm); border-radius: 10px;}
+  .form-field{gap: 10px;}
+  .form-field__hint{padding: 6px 16px 0;}
+  .form-field--fixed{flex: 0 1 calc((100% - 32px) / 2);}
+}
+
+/* ==========================================================================
+   10. Mobile (≤768px)
+   ========================================================================== */
+@media (max-width: 768px){
+  :root{ --gutter: 20px; }
+
+  .site-header__inner{ padding: 16px 24px; gap: 4px; }
+  .site-header__logo{ height: 32px; }
+  .site-header__cta{position: fixed; width: 100px; height: 100px; bottom: calc(52px + env(safe-area-inset-bottom, 0px)); top: auto; right: -24px; padding-top: 4px; padding-right: 12px; font-size: 16px; letter-spacing: 0.2px; }
+  .nav-anchor{ padding: 0 16px;}
+  .nav-anchor__btn{ padding: 16px 10px; font-size: 14px; }
+  .nav-anchor__btn.is-active::after{ bottom: -1px; width: 54px; }
+
+/* 錨點導覽：手機版固定在螢幕下方，可左右滑動 */
+  .nav-anchor{
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    top: auto;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    transform: none;
+    max-width: 400px;
+    margin: 0 7px;
+    padding: 0 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+    justify-content: center;
+    box-shadow: 0 0px 16px 0 rgba(25, 52, 72, 0.2);
+  }
+
+
+  .kv{ gap: 108px; padding: 90px 16px 40px; }
+
+  .kv__title-wrap{ padding: 0 20px; }
+  .kv__main{ width: 200%; min-width: 1000px; justify-content: center;}
+  .kv__bg-wave{height: 120px;}
+  .kv__bg{height: 100%;}
+  .kv__heading .line2{font-size: 50px;}
+  .kv__logo{ width: 148px; margin-bottom: 8px;}
+  .kv__resource-title{ gap: 8px;font-size: var(--fs-sm); }
+  .kv__resource{margin-top: 16px;}
+  .kv__subtitle{font-size: var(--fs-sm);}
+  .kv__apply-cta{ position: absolute; right: calc(50% - 72px); top:-88px; width: 144px; height: 144px; padding-bottom: 64px; font-size: var(--fs-sm);}
+  .kv__keydata{ flex-direction: column; gap: 16px; }
+  .kv__keydata-card{ padding: 8px 0px 12px; gap: 20px 12px;border-radius: 16px; gap: 0;}
+  .kv__stat{ flex-basis: 20%; min-width: 150px; padding: 16px 4px; }
+  .kv__stat-value .num{ font-size: 36px; }
+  .kv__more-btn{ position: static; transform: none; width: 100%; height: auto; padding-top: 12px; margin: 0 auto; background: unset; box-shadow:none; color: var(--c-text-primary);}
+  .kv__more-btn img{ width: 24px; height: 24px; filter: brightness(0) saturate(100%) invert(22%) sepia(18%) saturate(1130%) hue-rotate(178deg) brightness(92%); transition: transform .5s ease;
+  animation: kv-chevron-bounce 1.6s ease-in-out infinite;}
+  .kv__stat-label{font-size: 16px;}
+  .kv__stat-value .unit{font-size: var(--fs-md);}
+
+
+  .tabs-sec{ flex-direction: column; align-items: center; padding: 80px 0 60px; gap: 48px; }
+  .tabs-sec__deco{ right: -560px; }
+  .tabs__area{ justify-content: center; padding: 0 18px 0 44px; width: 100%; }
+  .tabs__inner{ align-items: center; text-align: center; width: 100%; max-width: 640px;gap:16px; gap: 12px;}
+  .tabs__eyebrow-wrap{ align-items: flex-start; text-align: left; }
+  .tabs__btn-group{ justify-content: start; }
+  .tabs__content-wrap{ flex-basis: auto; width: 100%; padding: 0 0 0 20px; border-radius: 16px;}
+  .tabs__panel{ border-radius: 24px 0 0 24px; padding: 22px 22px 22px; gap: 0px;}
+  .tabs__step{padding-left: 8px;}
+  .tabs__detail{border: 1px solid var(--c-brand-secondary);}
+  .tabs__step, .tabs__detail{ max-width: 100%; }
+  .tabs__step-inner{height: 20px;}
+  .tabs__step-num{font-size: 72px; padding-top: 0;}
+  .tabs__heading{
+    font-size: 32px;
+    display: flex; 
+    flex-direction:row;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: nowrap; }
+  .tabs__heading br {display: none;}
+  .tabs__btn{padding: 12px 16px; font-size: 16px;}
+  .tabs__title{font-size: var(--fs-xl); padding: 8px 8px 0;}
+  .tabs__desc{padding: 8px 8px 0;}
+  .tab-subtitle-left{display: flex ;justify-content: flex-start; text-align: left;}
+  .tabs__detail-text{font-size: 16px;}
+
+
+
+
+  .highlight-sec__head{ padding: 72px 16px; gap: 8px; }
+  .highlight-sec__deco-left{ width: 500px; height: 420px; left: -260px; }
+  .highlight-sec__content{ padding: 0; gap: 64px; }
+  .highlight__content{ padding: 0 18px; width: 100%;}
+  .highlight__card{ padding: 24px 20px; gap: 8px; border-radius: 20px;}
+  .highlight__card-title h3{ font-size: 20px; }
+  .highlight__card-title{gap: 6px;}
+  .highlight-sec__cta{ padding: 24px 16px; }
+  .highlight{flex-direction:column-reverse;}
+  .highlight__panel{width: 80%; height: 400px;}
+  .highlight__bg{flex: 0 0 auto;}
+  .highlight__bg img{height: auto; object-fit: contain; min-height: 0%; }
+
+
+  .company-sec{ padding: 64px 0; gap: 32px; }
+  .company__track{padding-left: 24px; gap: 16px;}
+  .company__card{border-radius: 12px;}
+  .company__head{ padding: 0 40px; flex-direction: column; align-items: flex-start; gap: 24px; }
+  .company__head-text{gap: 8px;}
+  .company__track{ padding-left: 16px; }
+  .company__nav-btn{ width: 56px; height: 56px; }
+  .company__nav-btn img{ width: 20px; height: 20px; }
+  .company__card-logo{width: 56px; height: 56px;}
+  .company__card-name{font-size: var(--fs-sm);}
+  .company__card-tag{padding: 2px 6px; font-size: 15px;}
+  .company__card-heading{gap: 4px;}
+  .company__card-link{font-size: 16px;}
+  .company__nav {
+    order: 3;
+    align-self: center;
+    padding: 0;
+  }
+  .company-sec__deco{width: 630px; height: 560px;}
+
+  .step-sec{ padding: 64px 20px 0; }
+  .section-heading{    
+    display: flex; 
+    flex-direction:row;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: nowrap; 
+  }
+  .section-heading br{display: none;}
+  .step-sec__inner{ gap: 32px; flex-direction: column; }
+  .step{ gap: 14px; }
+  .step-list{padding-left: 16px;}
+  .step__title{font-size: var(--fs-sm);}
+  .step__num{ width: 32px; font-size: 40px; }
+  .step__body{ padding: 4px 0 32px; gap: 8px; }
+  .step__desc{font-size: 15px;}
+  .step-sec__title{ max-width: 100%; gap: 8px; padding: 0 20px;}
+  .step__body--4{margin-bottom: 80px;}
+
+  .form-sec{ padding: 0 12px 32px; }
+  .form-body{gap: 32px;}
+  .form-card{ padding: 40px 16px 32px; gap: 40px; border-radius: 12px; }
+  .form-card__head h2{ font-size: 26px; gap: 8px;}
+  .form-grid{ gap: 32px; }
+  .form-field{ flex-basis: 100%; gap: 6px;}
+  .form-field--fixed{ flex-basis: 100%; }
+  .form-privacy{ padding: 24px 20px; gap: 24px; }
+  .btn-submit, .btn-pill{ width: auto; justify-content: center; }
+
+  .form-field__label{font-size: 16px; gap: 6px;}
+  .form-field__input{padding: 16px; border-radius: 8px;}
+  .form-field__hint{padding-top: 0;}
+
+
+
+  .site-footer{ padding: 48px 20px; gap: 16px; }
+  .site-footer__logos{ gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .site-footer__logos img{ height: 28px; }
+
+
+  .video-lightbox{padding: 16px;}
+  .video-lightbox__panel{padding: 8px; border-radius: 12px;}
+  .video-lightbox__frame{border-radius: 8px;}
+  .video-lightbox__close{right: -8px; top: -48px;}
+}
+
+
+@media (min-width: 769px) {
+  .company-sec {
+    display: grid;
+    grid-template-columns: 0.8fr auto;
+    grid-template-areas:
+      "head nav"
+      "viewport viewport";
+    align-items: center;
+    column-gap: 24px;
+    row-gap: 80px;
+  }
+
+  .company__head     { grid-area: head; }
+  .company__nav      { grid-area: nav; align-self: self-end; padding-right: 64px;}
+  .company__viewport { grid-area: viewport; }
+}
+
+/* 手機橫向時，讓 lightbox 面板佔滿整個畫面，影片區域最大化 */
+@media (max-width: 900px) and (orientation: landscape) {
+  .video-lightbox{padding: 16px 64px;}
+  .video-lightbox__panel {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    border-radius: 12px;
+    padding: 8px;
+  }
+
+  .video-lightbox__frame {
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    border-radius: 8px;
+
+  }
+
+  .video-lightbox__frame iframe {
+    width: 100%;
+    height: 100%;
+  }
+
+  .video-lightbox__close {
+    top: -4px;
+    right: -48px;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================== Header ============================== -->
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="https://info.taiwantrade.com/" class="site-header__logo"><img src="images/header-logo.png" alt="Taiwantrade.com"></a>
+    <nav class="nav-anchor" id="nav-anchor">
+      <a class="nav-anchor__btn" data-nav-target="challenges" href="#challenges">解決痛點</a>
+      <a class="nav-anchor__btn" data-nav-target="highlights" href="#highlights">核心優勢</a>
+      <a class="nav-anchor__btn" data-nav-target="stories" href="#stories">成功案例</a>
+      <a class="nav-anchor__btn" data-nav-target="step" href="#step">加入方式</a>
+    </nav>
+  </div>
+      <button class="site-header__cta" id="header-cta" type="button" data-scroll-to="join">點擊<br>申請</button>
+
+</header>
+
+<main>
+
+<!-- ============================== Sec_KV ============================== -->
+<section class="kv" id="hero">
+
+  <div class="kv__bg" aria-hidden="true">
+    <img class="kv__main" src="images/KV.png" alt=""> </img>
+    <div class="kv__bg-glow"></div>
+    <img class="kv__bg-wave" src="images/kv-wave.svg" alt="">
+  </div>
+
+  <div class="kv__title-wrap">
+    <div class="kv__logo"><img src="images/kv-logo.png" alt="中華民國對外貿易發展協會 Taiwan External Trade Development Council"></div>
+    <h1 class="kv__heading">
+      <span class="line1">為臺灣企業</span>
+      <span class="line2">開啟全球貿易大門</span>
+    </h1>
+    <div class="kv__resource">
+      <div class="kv__resource-title">
+        <span class="teal">官方推廣資源</span>
+        <img src="images/kv-resource-icon.svg" alt="">
+        <span class="orange">全方位數位工具</span>
+      </div>
+      <p class="kv__subtitle">讓跨境貿易更簡單、更高效！</p>
+    </div>
+  </div>
+
+  <div class="kv__keydata">
+          <button class="kv__apply-cta" type="button" data-scroll-to="join">點擊<br>申請</button>
+
+    <div class="kv__keydata-card">
+      <div class="kv__stat">
+        <div class="kv__stat-value"><span class="num en">205+</span><span class="unit en">%</span></div>
+        <p class="kv__stat-label">商品曝光率</p>
+      </div>
+      <div class="kv__divider"></div>
+      <div class="kv__stat">
+        <div class="kv__stat-value"><span class="num en">10+</span><span class="unit en">%</span></div>
+        <p class="kv__stat-label">新客增率</p>
+      </div>
+      <div class="kv__divider"></div>
+      <div class="kv__stat">
+        <div class="kv__stat-value"><span class="num en">140K+</span></div>
+        <p class="kv__stat-label">真實買主資料</p>
+      </div>
+      <div class="kv__divider"></div>
+      <div class="kv__stat">
+        <div class="kv__stat-value"><span class="num en">25+</span><span class="unit en">年</span></div>
+        <p class="kv__stat-label">國際跨境貿易經驗</p>
+      </div>
+    </div>
+
+    <button class="kv__more-btn" type="button" data-scroll-to="highlights">
+      了解核心優勢
+      <img src="images/kv-chevron.svg" alt="">
+    </button>
+  </div>
+</section>
+
+<!-- ============================== Sec_Tabs ============================== -->
+<section class="tabs-sec" id="challenges">
+  <img class="tabs-sec__deco" src="images/tabs-deco-bg.svg" alt="" aria-hidden="true">
+
+  <div class="tabs__area">
+    <div class="tabs__inner">
+      <div class="tabs__eyebrow-wrap">
+        <p class="section-eyebrow en tab-subtitle-left">Challenges &amp; Solutions</p>
+        <h2 class="tabs__heading">幫你打開<br>海外市場</h2>
+      </div>
+      <div class="tabs__btn-group" id="tabs-btn-group">
+        <button class="tabs__btn is-active" data-tab="1">信任</button>
+        <button class="tabs__btn" data-tab="2">曝光</button>
+        <button class="tabs__btn" data-tab="3">行銷</button>
+        <button class="tabs__btn" data-tab="4">媒合</button>
+        <button class="tabs__btn" data-tab="5">交易</button>
+        <button class="tabs__btn" data-tab="6">拓展</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs__content-wrap">
+    <div class="tabs__panel is-active" data-panel="1">
+      <div class="tabs__step">
+        <div class="tabs__step-inner">
+          <p class="tabs__step-num">01</p>
+        </div> 
+        <h3 class="tabs__title">國際信任</h3>
+        <p class="tabs__desc">品牌知名度尚未建立前，海外買主可能較難確認企業可靠性，容易在洽詢初期失去合作機會。</p>
+      </div>
+      <div class="tabs__detail">
+        <div class="tabs__tags">
+          <span class="tabs__tag">國際認證</span>
+          <span class="tabs__tag">政府支持</span>
+        </div>
+        <p class="tabs__detail-text">國家級數位行銷平台，提供鄧白氏、TÜV等國際權威認證為您的企業背書。</p>
+      </div>
+    </div>
+
+    <div class="tabs__panel" data-panel="2">
+      <div class="tabs__step">
+        <div class="tabs__step-inner">
+        <p class="tabs__step-num">02</p>
+        </div> 
+        <h3 class="tabs__title">海外曝光</h3>
+        <p class="tabs__desc">產品具備競爭力，卻因搜尋排名不佳、缺乏在地語系內容，難以進入海外買主的搜尋視野。</p>
+      </div>
+      <div class="tabs__detail">
+        <div class="tabs__tags">
+          <span class="tabs__tag">SEO</span>
+          <span class="tabs__tag">AI優先推薦</span>
+        </div>
+        <p class="tabs__detail-text">提供17國語系官方網域、符合SEO及AI認定權威資料引用推薦，讓產品在當地GOOGLE搜尋及AI搜尋名列前茅。</p>
+      </div>
+    </div>
+    <div class="tabs__panel" data-panel="3">
+      <div class="tabs__step">
+        <div class="tabs__step-inner">
+        <p class="tabs__step-num">03</p>
+        </div> 
+        <h3 class="tabs__title">數位行銷</h3>
+        <p class="tabs__desc">不擅長撰寫產品文案，不會拍攝專業產品圖，不懂如何精準設定關鍵字投放廣告，不熟悉AI數位工具。</p>
+      </div>
+      <div class="tabs__detail">
+        <div class="tabs__tags">
+          <span class="tabs__tag">AI智慧生成</span>
+          <span class="tabs__tag">一站式工具</span>
+        </div>
+        <p class="tabs__detail-text">提供AI文案生成、AI推薦精準關鍵字、數據儀表板，協助企業快速建立國際級門面，運用關鍵字找到國際買家需求。</p>
+      </div>
+    </div>
+    <div class="tabs__panel" data-panel="4">
+      <div class="tabs__step">
+        <div class="tabs__step-inner">
+        <p class="tabs__step-num">04</p>
+        </div> 
+        <h3 class="tabs__title">買主媒合</h3>
+        <p class="tabs__desc">收到詢價卻難以判斷買主是否具有真實採購需求，業務需花費大量時間篩選與追蹤。</p>
+      </div>
+      <div class="tabs__detail">
+        <div class="tabs__tags">
+          <span class="tabs__tag">AI智慧推薦</span>
+          <span class="tabs__tag">全球駐點</span>
+        </div>
+        <p class="tabs__detail-text">結合貿協全球60+駐點，引薦具備真實採購需求的「高純度」買主，透過AI智慧推薦與數據儀表板，協助企業接觸具真實採購需求、更符合目標的潛在買主。</p>
+      </div>
+    </div>
+    <div class="tabs__panel" data-panel="5">
+      <div class="tabs__step">
+        <div class="tabs__step-inner">
+        <p class="tabs__step-num">05</p>
+        </div> 
+        <h3 class="tabs__title">跨境交易</h3>
+        <p class="tabs__desc">缺乏物流、金流資源，跨市場法規、ESG規範複雜，提高跨境門檻。</p>
+      </div>
+      <div class="tabs__detail">
+        <div class="tabs__tags">
+          <span class="tabs__tag">策略聯盟資源</span>
+          <span class="tabs__tag">合規輔導</span>
+        </div>
+        <p class="tabs__detail-text">串聯國際物流、跨境金流等策略聯盟資源，提供各國市場動態、經貿法規、ESG指引，協助企業降低交易成本與合規風險。</p>
+      </div>
+    </div>
+    <div class="tabs__panel" data-panel="6">
+      <div class="tabs__step">
+        <div class="tabs__step-inner">
+        <p class="tabs__step-num">06</p>
+        </div> 
+        <h3 class="tabs__title">拓展商機</h3>
+        <p class="tabs__desc">實體展投入成本高，展後難以追蹤商機。</p>
+      </div>
+      <div class="tabs__detail">
+        <div class="tabs__tags">
+          <span class="tabs__tag">虛實整合</span>
+          <span class="tabs__tag">24/7不中斷</span>
+        </div>
+        <p class="tabs__detail-text">結合國際實體展與線上展，將產品資訊延伸至數位平台，365天24小時曝光不中斷。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== Sec_HighLight ============================== -->
+<section class="highlight-sec" id="highlights">
+  <div class="highlight-sec__head">
+    <img class="highlight-sec__deco-left" src="images/highlight-deco-left.svg" alt="" aria-hidden="true">
+    <p class="section-eyebrow en">Core Advantages</p>
+    <h2 class="section-heading">整合關鍵資源<br>精準佈局外銷每一步</h2>
+    <img class="highlight-sec__yellow-dot" src="images/highlight-yellow-dot.svg" alt="" aria-hidden="true">
+  </div>
+
+  <div class="highlight-sec__content">
+
+    <div class="highlight highlight-1">
+        <img class="highlight__wave" src="images/highlight-wave-deco.svg" alt="" aria-hidden="true">
+
+      <div class="highlight__panel"></div>
+      <div class="highlight__bg">
+        <picture>
+          <source media="(max-width: 768px)" srcset="images/highlight-img-1-mobile.png">
+          <img src="images/highlight-img-1.png" alt="企業專屬網頁">
+        </picture>
+      </div>
+      <div class="highlight__content highlight__content--green--blue">
+        <div class="highlight__card highlight__card--blue">
+          <div class="highlight__card-title">
+            <h3>企業專屬網頁</h3>
+            <span class="highlight__tag highlight__tag--blue">建立專屬的國際品牌門面</span>
+          </div>
+          <ul class="highlight__list">
+            <li><img src="images/check-icon-white.svg" alt=""><span><span class="en">17</span> 國語系在地網域，大幅提高在地買主能見度</span></li>
+            <li><img src="images/check-icon-white.svg" alt=""><span>企業專屬自訂網址，突顯品牌並掌握 <span class="en">Google</span> 權重與 <span class="en">AI</span> 搜尋推薦優勢</span></li>
+            <li><img src="images/check-icon-white.svg" alt=""><span><span class="en">GEO/SEO</span> 友善架構與彈性模組，企業網就是你的官網</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight highlight-2 highlight--reverse">
+      <div class="highlight__panel"></div>
+      <div class="highlight__bg">
+        <picture>
+          <source media="(max-width: 768px)" srcset="images/highlight-img-2-mobile.png">
+          <img src="images/highlight-img-2.png" alt="型錄編輯上架">
+        </picture>
+      </div>
+      <div class="highlight__content highlight__content--purple">
+        <div class="highlight__card highlight__card--purple">
+          <div class="highlight__card-title">
+            <h3><span class="en">AI</span> 型錄編輯上架</h3>
+            <span class="highlight__tag highlight__tag--purple">一鍵智慧生成 17 國多語系型錄</span>
+          </div>
+          <ul class="highlight__list">
+            <li><img src="images/check-icon-white-2.svg" alt=""><span>AI 一鍵生成多語系型錄，省去繁瑣翻譯</span></li>
+            <li><img src="images/check-icon-white-2.svg" alt=""><span>自動建議熱搜詞，提升 Google 與 AI 搜尋推薦率</span></li>
+            <li><img src="images/check-icon-white-2.svg" alt=""><span>高效批次管理型錄，智能分類一站輕鬆搞定</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight highlight-3">
+      <div class="highlight__panel"></div>
+      <div class="highlight__bg">
+        <picture>
+          <source media="(max-width: 768px)" srcset="images/highlight-img-3-mobile.png">
+          <img src="images/highlight-img-3.png" alt="訪客流量儀表板">
+        </picture>
+      </div>
+      <div class="highlight__content highlight__content--green">
+        <div class="highlight__card highlight__card--green">
+          <div class="highlight__card-title">
+            <h3>訪客流量儀表板</h3>
+            <span class="highlight__tag highlight__tag--green">隨時掌握買主行為與流量數據</span>
+          </div>
+          <ul class="highlight__list">
+            <li><img src="images/check-icon-white-2.svg" alt=""><span>一頁掌握全球買主足跡，即時鎖定高意向採購訊號</span></li>
+            <li><img src="images/check-icon-white-2.svg" alt=""><span>AI 買主偏好與熱搜分析，主動高效出擊</span></li>
+            <li><img src="images/check-icon-white-2.svg" alt=""><span>掌握產業趨勢與競品洞察，動態優化全球拓銷策略</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight highlight-4 highlight--reverse">
+      <div class="highlight__panel"></div>
+      <div class="highlight__bg">
+        <picture>
+          <source media="(max-width: 768px)" srcset="images/highlight-img-4-mobile.png">
+          <img src="images/highlight-img-4.png" alt="海外商機買主查詢">
+        </picture>
+      </div>
+      <div class="highlight__content highlight__content--orange">
+        <div class="highlight__card highlight__card--orange">
+          <div class="highlight__card-title">
+            <h3>海外商機買主查詢</h3>
+            <span class="highlight__tag highlight__tag--orange">精準鏈結全球採購需求</span>
+          </div>
+          <ul class="highlight__list">
+            <li><img src="images/check-icon-white-2.svg" alt=""><span>貿協 60+ 海外駐點，推薦真實潛在買主</span></li>
+            <li><img src="images/check-icon-white-2.svg" alt=""><span>AI 智慧演算產品關聯，24 小時自動媒合商機</span></li>
+            <li><img src="images/check-icon-white-2.svg" alt=""><span>完整記錄詢價歷程，隨時掌握進度不漏單</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="highlight-sec__cta">
+    <a class="btn-pill" href="#" data-video-cta>觀看形象影片<img src="images/chevron-icon-white.svg" alt=""></a>
+  </div>
+</section>
+
+<!-- ============================== Sec_Company ============================== -->
+<section class="company-sec" id="stories">
+  <img class="company-sec__deco" src="images/company-deco-bg.svg" alt="" aria-hidden="true">
+
+  <div class="company__head">
+    <div class="company__head-text">
+      <p class="section-eyebrow en">Sharing Stories</p>
+      <h2 class="section-heading">從實際成果<br>一步步看見企業成長</h2>
+    </div>
+  </div>
+      <div class="company__nav">
+      <button class="company__nav-btn" id="company-prev" type="button" aria-label="上一則">
+        <img src="images/company-chevron-left.svg" alt="">
+      </button>
+      <div class="company__progress"><span class="company__progress-bar" id="company-progress"></span></div>
+      <button class="company__nav-btn" id="company-next" type="button" aria-label="下一則">
+        <img src="images/company-chevron-right.svg" alt="">
+      </button>
+    </div>
+
+
+  <div class="company__viewport">
+    <div class="company__track" id="company-track">
+
+      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=201601">
+        <article class="company__card-inner">
+          <div class="company__card-cover"><img src="images/company-1-cover.jpg" alt="睿嘉生物科技"></div>
+          <div class="company__card-body">
+            <div class="company__card-top">
+              <div class="company__card-logo"><img src="images/company-1-logo.png" alt=""></div>
+              <div class="company__card-heading">
+                <span class="company__card-tag">生物科技</span>
+                <h3 class="company__card-name">睿嘉生物科技</h3>
+              </div>
+            </div>
+            <p class="company__card-desc">透過 iDealEZ 買賣旺拓展海外市場，以線上小額訂單開啟合作，逐步帶動後續長期貿易往來。</p>
+            <div class="company__card-stats">
+              <div class="company__card-stat"><img src="images/check-icon-gray.svg" alt="">7個月新增 74 筆海外訂單</div>
+              <div class="company__card-stat"><img src="images/check-icon-gray.svg" alt="">小額訂單超過 3 萬美元</div>
+            </div>
+            <span class="company__card-link" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=201601">查看案例<img src="images/company-arrow-icon.svg" alt=""></span>
+          </div>
+        </article>
+      </a>
+
+      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=201601">
+        <article class="company__card-inner">
+          <div class="company__card-cover"><img src="images/company-2-cover.jpg" alt="東大茶葉有限公司"></div>
+          <div class="company__card-body">
+            <div class="company__card-top">
+              <div class="company__card-logo"><img src="images/company-2-logo.png" alt=""></div>
+              <div class="company__card-heading">
+                <span class="company__card-tag">農產食品</span>
+                <h3 class="company__card-name">東大茶葉有限公司</h3>
+              </div>
+            </div>
+            <p class="company__card-desc">透過台灣經貿網後台即時數據分析，快速掌握國際買家需求，進一步優化產品及品牌形象，藉由商機媒合與多國買主接洽。</p>
+            <div class="company__card-stats">
+              <div class="company__card-stat"><img src="images/check-icon-gray.svg" alt="">獲得中國、印度、捷克等買家洽詢</div>
+              <div class="company__card-stat"><img src="images/check-icon-gray.svg" alt="">2024 - 2026 年出口近 1200 斤茶葉</div>
+            </div>
+            <span class="company__card-link" href="#">查看案例<img src="images/company-arrow-icon.svg" alt=""></span>
+          </div>
+        </article>
+      </a>
+      
+      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=129444">
+        <article class="company__card-inner">
+          <div class="company__card-cover"><img src="images/company-3-cover.jpg" alt="歐都納股份有限公司"></div>
+          <div class="company__card-body">
+            <div class="company__card-top">
+              <div class="company__card-logo"><img src="images/company-3-logo-1.png" alt=""></div>
+              <div class="company__card-heading">
+                <span class="company__card-tag">運動用品</span>
+                <h3 class="company__card-name">歐都納股份有限公司</h3>
+              </div>
+            </div>
+            <p class="company__card-desc">參加台北國際自行車展，透過台灣經貿網拍攝展覽實況形象影片，並於首頁設置VR虛擬展間，大幅提高流量。</p>
+            <div class="company__card-stats">
+              <div class="company__card-stat"><img src="images/check-icon-gray.svg" alt="">串接實體展覽與線上展覽效益</div>
+              <div class="company__card-stat"><img src="images/check-icon-gray.svg" alt="">自經貿網每年獲得 10 萬美金訂單</div>
+            </div>
+            <span class="company__card-link" href="#">查看案例<img src="images/company-arrow-icon.svg" alt=""></span>
+          </div>
+        </article>
+      </a>
+
+      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=201601">
+        <article class="company__card-inner">
+          <div class="company__card-cover"><img src="images/company-4-cover-2.jpg" alt="捷登國際股份有限公司"></div>
+          <div class="company__card-body">
+            <div class="company__card-top">
+              <div class="company__card-logo"><img src="images/company-4-logo.png" alt=""></div>
+              <div class="company__card-heading">
+                <span class="company__card-tag">居家生活</span>
+                <h3 class="company__card-name">捷登國際股份有限公司</h3>
+              </div>
+            </div>
+            <p class="company__card-desc">參展馬來西亞臺灣形象展台灣經貿網專區，成功以ESG淨水棒對接當地藥局與永續企業採購需求。</p>
+            <div class="company__card-stats">
+              <div class="company__card-stat"><img src="images/check-icon-gray.svg" alt="">獲馬來西亞商 60 萬首批訂單</div>
+              <div class="company__card-stat"><img src="images/check-icon-gray.svg" alt="">吸引馬商預約來台洽談研發合作</div>
+            </div>
+            <sapn class="company__card-link" href="#">查看案例<img src="images/company-arrow-icon.svg" alt=""></span>
+          </div>
+        </article>
+      </a>
+
+      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=129441">
+        <article class="company__card-inner">
+          <div class="company__card-cover"><img src="images/company-5-cover.jpg" alt="鎮一大理石股份有限公司"></div>
+          <div class="company__card-body">
+            <div class="company__card-top">
+              <div class="company__card-logo"><img src="images/company-5-logo.png" alt=""></div>
+              <div class="company__card-heading">
+                <span class="company__card-tag">建材</span>
+                <h3 class="company__card-name">鎮一大理石股份有限公司</h3>
+              </div>
+            </div>
+            <p class="company__card-desc">垂直整合天然大理石加工技術，透過台灣經貿網與多管道行銷成功打響 MIT 品牌知名度。</p>
+            <div class="company__card-stats">
+              <div class="company__card-stat"><img src="images/check-icon-gray.svg" alt="">簽訂日商 AC1 日本獨家代理權</div>
+              <div class="company__card-stat"><img src="images/check-icon-gray.svg" alt="">每年穩定獲 6 萬美元代理訂單</div>
+            </div>
+            <span class="company__card-link" href="#">查看案例<img src="images/company-arrow-icon.svg" alt=""></spam>
+          </div>
+        </article>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================== Sec_Step ============================== -->
+<section class="step-sec" id="step">
+  <img class="step-sec__deco" src="images/step-deco-bg.svg" alt="" aria-hidden="true">
+  <div class="step-sec__inner">
+    <div class="step-sec__title">
+      <p class="section-eyebrow en">Membership Process</p>
+      <h2 class="section-heading">四步驟<br>輕鬆開啟<br>全球商機</h2>
+    </div>
+    <div class="step-list">
+      <div class="step step--1">
+        <p class="step__num en">1</p>
+        <div class="step__line"></div>
+        <div class="step__body">
+          <p class="step__title">申請加入與開通</p>
+          <p class="step__desc">填寫企業基本資料並完成繳費，立即正式啟動台灣經貿網專屬會員服務。</p>
+        </div>
+      </div>
+      <div class="step step--2">
+        <p class="step__num en">2</p>
+        <div class="step__line"></div>
+        <div class="step__body">
+          <p class="step__title">認證建置與 AI 優化</p>
+          <p class="step__desc">約2週內取得第三方國際商業認證與17國在地網域，同步上傳企業介紹、產品圖文，運用AI工具輕鬆優化型錄</p>
+        </div>
+      </div>
+      <div class="step step--3">
+        <p class="step__num en">3</p>
+        <div class="step__line"></div>
+        <div class="step__body">
+          <p class="step__title">智慧曝光與全球媒合</p>
+          <p class="step__desc">內容上架即刻生效！結合多語系網域、AI智慧推薦與貿協全球 60+ 駐點，全方位對接潛在買主。</p>
+        </div>
+      </div>
+      <div class="step step--4">
+        <p class="step__num en">4</p>
+        <div class="step__line"></div>
+        <div class="step__body step__body--4">
+          <p class="step__title">接收洽詢並拓展商機</p>
+          <p class="step__desc">即時接收全球買主詢價，運用後台工具高效追蹤商機進度，將流量與媒合精準轉化為外銷訂單。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== Sec_Frame (Form) ============================== -->
+<section class="form-sec" id="join">
+  <div class="form-card">
+    <div class="form-card__head">
+      <p class="section-eyebrow en">Join TaiwanTrade</p>
+      <h2>從這裡，展開你的專屬國際旅程</h2>
+    </div>
+
+<div class="form-input-area" style="height: 400px">
+
+  <!-- ============================== 這裡為放置 input 區域 ==============================
+   
+
+可以在這裡新增 input，並把 style="height: 400px" 刪掉
+
+
+  ====================================================================================== -->
+
+</div>
+</section>
+
+</main>
+
+<!-- ============================== Footer ============================== -->
+<footer class="site-footer">
+  <div class="site-footer__logos">
+    <img src="images/footer-logo.png" alt="Taiwantrade.com">
+    <div class="site-footer__divider"></div>
+    <img src="images/footer-partner-logo.png" alt="經濟部國際貿易署 International Trade Administration">
+  </div>
+  <p>© 2026 台灣經貿網 TaiwanTrade · 經濟部國際貿易署支持 · 中華民國對外貿易發展協會執行</p>
+</footer>
+
+<!-- ============================== Video Lightbox ==============================
+     YOUTUBE_VIDEO_ID 是暫時的假影片，正式上線前請換成實際的 YouTube 影片 ID
+     （YouTube 網址 https://www.youtube.com/watch?v=XXXXXXXXXXX 裡 v= 後面那串就是 ID）
+     只需要修改下方 <script> 區塊裡的 YOUTUBE_VIDEO_ID 變數即可，其餘不用動。
+================================================================================ -->
+<div class="video-lightbox" id="video-lightbox" aria-hidden="true">
+  <div class="video-lightbox__backdrop" data-lightbox-close></div>
+  <div class="video-lightbox__panel" role="dialog" aria-modal="true" aria-label="形象影片">
+    <button type="button" class="video-lightbox__close" data-lightbox-close aria-label="關閉影片">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="video-lightbox__frame">
+      <iframe id="video-lightbox-iframe" src="" title="TaiwanTrade 形象影片" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- Video Lightbox ----------------
+     YOUTUBE_VIDEO_ID 是暫時的佔位影片，正式上線前請換成實際的 YouTube 影片 ID。
+  ------------------------------------------------- */
+  var YOUTUBE_VIDEO_ID = 'OVzl5plUC0I';
+
+  var videoLightbox = document.getElementById('video-lightbox');
+  var videoIframe = document.getElementById('video-lightbox-iframe');
+
+  function openVideoLightbox(){
+    if(!videoLightbox || !videoIframe) return;
+    videoIframe.src = 'https://www.youtube.com/embed/' + YOUTUBE_VIDEO_ID + '?autoplay=1&rel=0';
+    videoLightbox.classList.add('is-open');
+    videoLightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeVideoLightbox(){
+    if(!videoLightbox || !videoIframe) return;
+    videoLightbox.classList.remove('is-open');
+    videoLightbox.setAttribute('aria-hidden', 'true');
+    videoIframe.src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('[data-video-cta]').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      openVideoLightbox();
+    });
+  });
+  document.querySelectorAll('[data-lightbox-close]').forEach(function(el){
+    el.addEventListener('click', closeVideoLightbox);
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && videoLightbox && videoLightbox.classList.contains('is-open')){
+      closeVideoLightbox();
+    }
+  });
+
+
+  /* ---------------- Smooth scroll for anchor nav + inline CTA buttons ---------------- */
+function scrollToId(id){
+  var el = document.getElementById(id);
+  if(!el) return;
+  var headerOffset = 90;
+  var top = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+
+  var isMobile = window.innerWidth <= 768;
+  window.scrollTo({ top: top, behavior: isMobile ? 'auto' : 'smooth' });
+} 
+ document.querySelectorAll('[data-scroll-to]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      scrollToId(btn.getAttribute('data-scroll-to'));
+    });
+  });
+  document.querySelectorAll('.nav-anchor__btn').forEach(function(link){
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      scrollToId(link.getAttribute('data-nav-target'));
+    });
+  });
+
+  /* Highlight active nav item on scroll */
+  var navTargets = ['challenges','highlights','stories','step'];
+  var navButtons = document.querySelectorAll('.nav-anchor__btn');
+  function updateActiveNav(){
+    var scrollPos = window.pageYOffset + 140;
+    var current = navTargets[0];
+    navTargets.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el && el.offsetTop <= scrollPos){ current = id; }
+    });
+    navButtons.forEach(function(btn){
+      btn.classList.toggle('is-active', btn.getAttribute('data-nav-target') === current);
+    });
+  }
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
+  
+
+
+  /* 手機版：讓作用中的錨點自動捲動到導覽條中央（只捲導覽條本身，不會捲動頁面） */
+  var navEl = document.getElementById('nav-anchor');
+  function centerNavButton(btn){
+    if(!navEl || navEl.scrollWidth <= navEl.clientWidth) return;
+    var target = btn.offsetLeft - (navEl.clientWidth - btn.offsetWidth) / 2;
+    navEl.scrollTo({ left: target, behavior: 'smooth' });
+  }
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
+
+
+
+  /* ---------------- Header CTA: fade + slide down once Sec_KV's bottom leaves viewport top ---------------- */
+  var headerCta = document.getElementById('header-cta');
+  var heroSection = document.getElementById('hero');
+  if(headerCta && heroSection && 'IntersectionObserver' in window){
+    var ctaObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var heroBottomPassed = entry.boundingClientRect.bottom <= 0;
+        headerCta.classList.toggle('is-visible', heroBottomPassed);
+      });
+    }, { threshold: 0 });
+    ctaObserver.observe(heroSection);
+  }
+
+  /* ---------------- Sec_Tabs (ease-out crossfade) ---------------- */
+  var tabButtons = document.querySelectorAll('.tabs__btn');
+  var tabPanels = document.querySelectorAll('.tabs__panel');
+  var tabSwitching = false;
+  tabPanels.forEach(function(p){
+    if(p.classList.contains('is-active')){ p.classList.add('is-visible'); }
+  });
+  tabButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if(tabSwitching || btn.classList.contains('is-active')) return;
+      tabSwitching = true;
+      var target = btn.getAttribute('data-tab');
+      tabButtons.forEach(function(b){ b.classList.toggle('is-active', b === btn); });
+      var outgoing = document.querySelector('.tabs__panel.is-active');
+      var incoming = document.querySelector('.tabs__panel[data-panel="' + target + '"]');
+      if(outgoing) outgoing.classList.remove('is-visible');
+      setTimeout(function(){
+        tabPanels.forEach(function(p){ p.classList.remove('is-active'); });
+        incoming.classList.add('is-active');
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){ incoming.classList.add('is-visible'); });
+        });
+        tabSwitching = false;
+      }, outgoing ? 180 : 0);
+    });
+  });
+
+  /* ---------------- Sec_Company Carousel (one card per click, no loop) ---------------- */
+  var track = document.getElementById('company-track');
+  var prevBtn = document.getElementById('company-prev');
+  var nextBtn = document.getElementById('company-next');
+  var progressBar = document.getElementById('company-progress');
+  var cards = track ? Array.prototype.slice.call(track.children) : [];
+  var currentIndex = 0;
+
+  function visibleCount(){
+    if(!track || !cards.length) return 1;
+    var viewportWidth = track.parentElement.getBoundingClientRect().width;
+    var style = window.getComputedStyle(track);
+    var gap = parseFloat(style.columnGap || style.gap || 0) || 0;
+    var cardWidth = cards[0].getBoundingClientRect().width + gap;
+    return Math.max(1, Math.floor(viewportWidth / cardWidth));
+  }
+
+  function maxIndex(){
+    return Math.max(0, cards.length - visibleCount());
+  }
+
+  function updateCarousel(){
+  if(!track || !cards.length) return;
+  currentIndex = Math.min(currentIndex, maxIndex());
+  var card = cards[0];
+  var style = window.getComputedStyle(track);
+  var gap = parseFloat(style.columnGap || style.gap || 0) || 0;
+  var cardWidth = card.getBoundingClientRect().width + gap;
+  track.style.transform = 'translateX(' + (-currentIndex * cardWidth) + 'px)';
+
+  if(prevBtn) prevBtn.disabled = currentIndex <= 0;
+  if(nextBtn) nextBtn.disabled = currentIndex >= maxIndex();
+
+  /* 當左右按鈕都無法操作（代表所有卡片已完整顯示），隱藏整個 nav */
+  var navEl = document.querySelector('.company__nav');
+  if(navEl){
+    var bothDisabled = maxIndex() <= 0; // 沒有可切換的空間，代表全部卡片都已顯示
+    navEl.style.display = bothDisabled ? 'none' : 'flex';
+  }
+
+  if(progressBar){
+    var trackWidth = track.parentElement.getBoundingClientRect().width;
+    var barTrackWidth = 80;
+    var segments = maxIndex() + 1;
+    var step = segments > 1 ? (barTrackWidth - 16) / (segments - 1) : 0;
+    progressBar.style.transform = 'translateX(' + (currentIndex * step) + 'px)';
+  }
+}
+  if(prevBtn){
+    prevBtn.addEventListener('click', function(){
+      if(currentIndex > 0){ currentIndex -= 1; updateCarousel(); }
+    });
+  }
+  if(nextBtn){
+    nextBtn.addEventListener('click', function(){
+      if(currentIndex < maxIndex()){ currentIndex += 1; updateCarousel(); }
+    });
+  }
+  window.addEventListener('resize', updateCarousel);
+  updateCarousel();
+
+
+  
+
+  /* ---------------- Sec_Frame Form Submission ----------------
+     這裡示範以 HubSpot Forms Submission API 直接送出資料（純前端，不需要後端）。
+     上線前請將下方 HUBSPOT_PORTAL_ID 與 HUBSPOT_FORM_GUID 換成貴司實際的
+     Portal ID 與表單 GUID（可於 HubSpot 表單的內嵌程式碼中取得）。
+     若改用 HubSpot 原生表單模組嵌入，則不需要這段 fetch 邏輯，
+     只需要保留欄位的樣式（class）並改用 HubSpot 表單產生的欄位 name 即可。
+  ------------------------------------------------------------- */
+  var HUBSPOT_PORTAL_ID = 'YOUR_PORTAL_ID';
+  var HUBSPOT_FORM_GUID = 'YOUR_FORM_GUID';
+
+  var form = document.getElementById('join-form');
+  var msgEl = document.getElementById('form-msg');
+
+  if(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      msgEl.textContent = '';
+      msgEl.className = 'form-msg';
+
+      var requiredFields = form.querySelectorAll('[required]');
+      var firstInvalid = null;
+      requiredFields.forEach(function(field){
+        if(!field.value.trim()){
+          if(!firstInvalid) firstInvalid = field;
+        }
+      });
+      if(firstInvalid){
+        msgEl.textContent = '請完整填寫必填欄位（標示 *）後再提交。';
+        msgEl.classList.add('form-msg--error');
+        firstInvalid.focus();
+        return;
+      }
+
+      if(HUBSPOT_PORTAL_ID === 'YOUR_PORTAL_ID' || HUBSPOT_FORM_GUID === 'YOUR_FORM_GUID'){
+        console.warn('請先設定 HUBSPOT_PORTAL_ID 與 HUBSPOT_FORM_GUID 才能實際送出至 HubSpot。');
+        msgEl.textContent = '（測試模式）表單驗證通過，尚未設定 HubSpot 表單 ID，暫不會實際送出。';
+        msgEl.classList.add('form-msg--success');
+        return;
+      }
+
+      var submitBtn = form.querySelector('.btn-submit');
+      submitBtn.disabled = true;
+
+      var fields = [
+        { name: 'lastname', value: document.getElementById('f-lastname').value },
+        { name: 'firstname', value: document.getElementById('f-firstname').value },
+        { name: 'email', value: document.getElementById('f-email').value },
+        { name: 'mobilephone', value: document.getElementById('f-phone').value },
+        { name: 'phone', value: document.getElementById('f-companyphone').value },
+        { name: 'company', value: document.getElementById('f-company').value },
+        { name: 'tax_id', value: document.getElementById('f-taxid').value },
+        { name: 'industry', value: document.getElementById('f-industry').value },
+        { name: 'country', value: document.getElementById('f-country').value }
+      ];
+
+      var payload = {
+        fields: fields.filter(function(f){ return f.value; }),
+        context: {
+          pageUri: window.location.href,
+          pageName: document.title
+        }
+      };
+
+      fetch('https://api.hsforms.com/submissions/v3/integration/submit/' + HUBSPOT_PORTAL_ID + '/' + HUBSPOT_FORM_GUID, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function(res){
+        if(!res.ok) throw new Error('submit failed');
+        return res.json();
+      })
+      .then(function(){
+        msgEl.textContent = '提交成功，我們將儘速與您聯繫！';
+        msgEl.classList.add('form-msg--success');
+        form.reset();
+      })
+      .catch(function(){
+        msgEl.textContent = '提交失敗，請稍後再試一次。';
+        msgEl.classList.add('form-msg--error');
+      })
+      .finally(function(){
+        submitBtn.disabled = false;
+      });
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>
