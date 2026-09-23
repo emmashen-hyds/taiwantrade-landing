@@ -2199,7 +2199,7 @@ margin-bottom: 144px;
   <div class="company__viewport">
     <div class="company__track" id="company-track">
 
-      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=129449">
+      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=129449" target="_blank>
         <article class="company__card-inner">
           <div class="company__card-cover"><img src="images/company-1-cover.jpg" alt="睿嘉生物科技"></div>
           <div class="company__card-body">
@@ -2220,12 +2220,12 @@ margin-bottom: 144px;
         </article>
       </a>
 
-      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=201601">
+      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=201601" target="_blank>
         <article class="company__card-inner">
           <div class="company__card-cover"><img src="images/company-2-cover.jpg" alt="東大茶葉有限公司"></div>
           <div class="company__card-body">
             <div class="company__card-top">
-              <div class="company__card-logo"><img src="images/company-2-logo.png" alt=""></div>
+              <div class="company__card-logo"><img src="images/dong-da.png" alt=""></div>
               <div class="company__card-heading">
                 <span class="company__card-tag">農產食品</span>
                 <h3 class="company__card-name">東大茶葉有限公司</h3>
@@ -2241,12 +2241,12 @@ margin-bottom: 144px;
         </article>
       </a>
       
-      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=129444">
+      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=129444" target="_blank>
         <article class="company__card-inner">
           <div class="company__card-cover"><img src="images/company-3-cover.jpg" alt="歐都納股份有限公司"></div>
           <div class="company__card-body">
             <div class="company__card-top">
-              <div class="company__card-logo"><img src="images/company-3-logo-1.png" alt=""></div>
+              <div class="company__card-logo"><img src="images/atunas.png" alt=""></div>
               <div class="company__card-heading">
                 <span class="company__card-tag">運動用品</span>
                 <h3 class="company__card-name">歐都納股份有限公司</h3>
@@ -2262,12 +2262,12 @@ margin-bottom: 144px;
         </article>
       </a>
 
-      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=129447">
+      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=129447" target="_blank>
         <article class="company__card-inner">
           <div class="company__card-cover"><img src="images/company-4-cover-2.jpg" alt="捷登國際股份有限公司"></div>
           <div class="company__card-body">
             <div class="company__card-top">
-              <div class="company__card-logo"><img src="images/company-4-logo.png" alt=""></div>
+              <div class="company__card-logo"><img src="images/jiedeng.png" alt=""></div>
               <div class="company__card-heading">
                 <span class="company__card-tag">居家生活</span>
                 <h3 class="company__card-name">捷登國際股份有限公司</h3>
@@ -2283,7 +2283,7 @@ margin-bottom: 144px;
         </article>
       </a>
 
-      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=129441">
+      <a class="company__card" href="https://info.taiwantrade.com/News_Content.aspx?n=918&s=129441" target="_blank>
         <article class="company__card-inner">
           <div class="company__card-cover"><img src="images/company-5-cover.jpg" alt="鎮一大理石股份有限公司"></div>
           <div class="company__card-body">
@@ -2602,11 +2602,14 @@ function scrollToId(id){
      原因：從下方捲動頁面到這個區塊時，就算滑鼠完全沒動，瀏覽器也會因為
      游標底下的元素換了而觸發 mouseenter，導致「還沒真的 hover 就被暫停」。
      改成偵測滑鼠移動時的座標是否落在區塊範圍內，只有使用者真的移動滑鼠
-     才會觸發暫停/恢復，捲動頁面不會誤觸發。 */
+     才會觸發暫停/恢復，捲動頁面不會誤觸發。
+     範圍只鎖定 .tabs__area（左側標題／按鈕區），不含右側內容卡片，
+     讓操作反饋集中在左邊。 */
   var tabsHovering = false;
-  if(tabsSection){
+  var tabsHoverZone = document.querySelector('.tabs__area');
+  if(tabsHoverZone){
     document.addEventListener('mousemove', function(e){
-      var rect = tabsSection.getBoundingClientRect();
+      var rect = tabsHoverZone.getBoundingClientRect();
       var inside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
       if(inside && !tabsHovering){
         tabsHovering = true;
@@ -2616,6 +2619,8 @@ function scrollToId(id){
         resumeTabAutoplay();
       }
     }, { passive: true });
+  }
+  if(tabsSection){
     tabsSection.addEventListener('focusin', pauseTabAutoplay);
     tabsSection.addEventListener('focusout', function(e){
       if(!tabsSection.contains(e.relatedTarget)){ resumeTabAutoplay(); }
