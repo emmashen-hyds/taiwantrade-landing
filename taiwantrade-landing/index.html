@@ -518,7 +518,7 @@ body{
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 0 8px;
+  padding: 0 22px;
 }
 .tabs__heading{
   font-weight: 700;
@@ -573,6 +573,42 @@ body{
 }
 .tabs__panel.is-active{ display: flex; }
 .tabs__panel.is-visible{ opacity: 1; transform: translateY(0); }
+
+/* 自動輪播進度條（跑馬燈），位於卡片底部 */
+.tabs__progress{
+  position: absolute;
+  left: 16px;
+  right: 0px;
+  bottom: -1px;
+  height: 4px;
+  border-radius: 4px;
+  background: rgba(52,70,93,0.12);
+  overflow: hidden;
+  z-index: 2;
+}
+.tabs__progress-bar{
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #3aa4f4, #55bdf4);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: tabs-progress-fill 8000ms linear paused;
+  transition: background-color .25s ease;
+  will-change: transform;
+}
+.tabs__progress-bar.is-running{ animation-play-state: running; }
+.tabs__progress-bar.is-reset{ animation: none; transform: scaleX(0); }
+.tabs__progress-bar.is-paused{ background: #c3ccd6; } /* 暫停中：灰色，讓使用者知道是暫停不是壞掉 */
+@keyframes tabs-progress-fill{
+  from{ transform: scaleX(0); }
+  to{ transform: scaleX(1); }
+}
+@media (prefers-reduced-motion: reduce){
+  .tabs__progress{ display: none; }
+}
+
+
 .tabs__step{
   max-width: 480px;
   padding-left: 24px;
@@ -658,7 +694,7 @@ body{
 /* ==========================================================================
    4. Sec_HighLight
    ========================================================================== */
-.highlight-sec{ position: relative; overflow: hidden; }
+.highlight-sec{ position: relative; overflow: visible; }
 .highlight-sec__head{
   position: relative;
   display: flex;
@@ -1502,6 +1538,12 @@ margin-bottom: 144px;
    padding: 0 20px 40px 40px; 
    gap:16px;
   }
+  
+  .tabs__progress{ left: 16px; right: 0px; bottom: -1px; }
+
+  .tabs__eyebrow-wrap{padding: 0 16px;}
+
+
   .tabs__inner{
     gap:40px;
     width: 88%;
@@ -1643,6 +1685,9 @@ margin-bottom: 144px;
   .tabs__btn-group{ justify-content: start; }
   .tabs__content-wrap{ flex-basis: auto; width: 100%; padding: 0 0 0 20px; border-radius: 16px;}
   .tabs__panel{ border-radius: 24px 0 0 24px; padding: 22px 22px 22px; gap: 0px;}
+
+  .tabs__progress{left: 44px; right: 0px; bottom: -1px; }
+
   .tabs__step{padding-left: 8px;}
   .tabs__detail{border: 1px solid var(--c-brand-secondary);}
   .tabs__step, .tabs__detail{ max-width: 100%; }
@@ -2010,6 +2055,10 @@ margin-bottom: 144px;
         </div>
         <p class="tabs__detail-text">結合國際實體展與線上展，將產品資訊延伸至數位平台，365天24小時曝光不中斷。</p>
       </div>
+
+    </div>
+        <div class="tabs__progress" aria-hidden="true">
+      <div class="tabs__progress-bar" id="tabs-progress-bar"></div>
     </div>
   </div>
 </section>
@@ -2466,33 +2515,99 @@ function scrollToId(id){
     ctaObserver.observe(heroSection);
   }
 
-  /* ---------------- Sec_Tabs (ease-out crossfade) ---------------- */
+  /* ---------------- Sec_Tabs (ease-out crossfade + 自動輪播) ---------------- */
   var tabButtons = document.querySelectorAll('.tabs__btn');
   var tabPanels = document.querySelectorAll('.tabs__panel');
+  var tabOrder = Array.prototype.map.call(tabButtons, function(b){ return b.getAttribute('data-tab'); });
+  var tabsProgressBar = document.getElementById('tabs-progress-bar');
+  var tabsSection = document.getElementById('challenges');
+  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var tabSwitching = false;
+  var tabAutoplayPaused = false;
+
   tabPanels.forEach(function(p){
     if(p.classList.contains('is-active')){ p.classList.add('is-visible'); }
   });
+
+  function switchToTab(target, restartTimer){
+    var btn = document.querySelector('.tabs__btn[data-tab="' + target + '"]');
+    if(!btn) return;
+    if(tabSwitching || btn.classList.contains('is-active')){
+      if(restartTimer) restartTabAutoplay();
+      return;
+    }
+    tabSwitching = true;
+    tabButtons.forEach(function(b){ b.classList.toggle('is-active', b === btn); });
+    var outgoing = document.querySelector('.tabs__panel.is-active');
+    var incoming = document.querySelector('.tabs__panel[data-panel="' + target + '"]');
+    if(outgoing) outgoing.classList.remove('is-visible');
+    setTimeout(function(){
+      tabPanels.forEach(function(p){ p.classList.remove('is-active'); });
+      incoming.classList.add('is-active');
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){ incoming.classList.add('is-visible'); });
+      });
+      tabSwitching = false;
+      if(restartTimer) restartTabAutoplay();
+    }, outgoing ? 180 : 0);
+  }
+
   tabButtons.forEach(function(btn){
     btn.addEventListener('click', function(){
-      if(tabSwitching || btn.classList.contains('is-active')) return;
-      tabSwitching = true;
-      var target = btn.getAttribute('data-tab');
-      tabButtons.forEach(function(b){ b.classList.toggle('is-active', b === btn); });
-      var outgoing = document.querySelector('.tabs__panel.is-active');
-      var incoming = document.querySelector('.tabs__panel[data-panel="' + target + '"]');
-      if(outgoing) outgoing.classList.remove('is-visible');
-      setTimeout(function(){
-        tabPanels.forEach(function(p){ p.classList.remove('is-active'); });
-        incoming.classList.add('is-active');
-        requestAnimationFrame(function(){
-          requestAnimationFrame(function(){ incoming.classList.add('is-visible'); });
-        });
-        tabSwitching = false;
-      }, outgoing ? 180 : 0);
+      switchToTab(btn.getAttribute('data-tab'), true);
     });
   });
 
+  /* 自動輪播：每 5 秒切到下一個，Loop 播放
+     - 手動點擊任一 Tab 會重新計算 5 秒
+     - 滑鼠移到整個區塊上方／鍵盤聚焦到按鈕時會暫停，離開後從暫停處繼續（不會重算）
+     - 使用者的系統若開啟「減少動態效果」，則不自動播放，避免造成不適
+  */
+  function restartTabAutoplay(){
+    if(!tabsProgressBar || reducedMotion) return;
+    tabsProgressBar.classList.remove('is-running');
+    tabsProgressBar.classList.add('is-reset');
+    void tabsProgressBar.offsetWidth; /* 強制 reflow，讓動畫可以重新從 0 開始 */
+    tabsProgressBar.classList.remove('is-reset');
+    if(!tabAutoplayPaused){ tabsProgressBar.classList.add('is-running'); }
+  }
+
+  function goToNextTab(){
+    var currentBtn = document.querySelector('.tabs__btn.is-active');
+    var idx = tabOrder.indexOf(currentBtn ? currentBtn.getAttribute('data-tab') : tabOrder[0]);
+    var nextTarget = tabOrder[(idx + 1) % tabOrder.length];
+    switchToTab(nextTarget, true);
+  }
+
+  if(tabsProgressBar){
+    tabsProgressBar.addEventListener('animationend', goToNextTab);
+  }
+
+  function pauseTabAutoplay(){
+    tabAutoplayPaused = true;
+    if(tabsProgressBar){
+      tabsProgressBar.classList.remove('is-running');
+      tabsProgressBar.classList.add('is-paused');
+    }
+  }
+  function resumeTabAutoplay(){
+    tabAutoplayPaused = false;
+    if(tabsProgressBar){
+      tabsProgressBar.classList.remove('is-paused');
+      if(!reducedMotion) tabsProgressBar.classList.add('is-running');
+    }
+  }
+
+  /* 沒有滑鼠 Hover 暫停：只保留鍵盤聚焦（無障礙用途）與手動點擊會暫停/重算，
+     滑鼠移到區塊上不會有任何反應，自動輪播會持續進行。 */
+  if(tabsSection){
+    tabsSection.addEventListener('focusin', pauseTabAutoplay);
+    tabsSection.addEventListener('focusout', function(e){
+      if(!tabsSection.contains(e.relatedTarget)){ resumeTabAutoplay(); }
+    });
+  }
+
+  restartTabAutoplay();
   /* ---------------- Sec_Company Carousel (one card per click, no loop) ---------------- */
   var track = document.getElementById('company-track');
   var prevBtn = document.getElementById('company-prev');
