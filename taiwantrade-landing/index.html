@@ -593,7 +593,7 @@ body{
   background: linear-gradient(90deg, #3aa4f4, #55bdf4);
   transform: scaleX(0);
   transform-origin: left center;
-  animation: tabs-progress-fill 8000ms linear paused;
+  animation: tabs-progress-fill 5000ms linear paused;
   transition: background-color .25s ease;
   will-change: transform;
 }
@@ -2598,9 +2598,24 @@ function scrollToId(id){
     }
   }
 
-  /* 沒有滑鼠 Hover 暫停：只保留鍵盤聚焦（無障礙用途）與手動點擊會暫停/重算，
-     滑鼠移到區塊上不會有任何反應，自動輪播會持續進行。 */
+  /* 用滑鼠「真的移動」來判斷有沒有懸停在區塊上，而不是用 mouseenter / mouseleave。
+     原因：從下方捲動頁面到這個區塊時，就算滑鼠完全沒動，瀏覽器也會因為
+     游標底下的元素換了而觸發 mouseenter，導致「還沒真的 hover 就被暫停」。
+     改成偵測滑鼠移動時的座標是否落在區塊範圍內，只有使用者真的移動滑鼠
+     才會觸發暫停/恢復，捲動頁面不會誤觸發。 */
+  var tabsHovering = false;
   if(tabsSection){
+    document.addEventListener('mousemove', function(e){
+      var rect = tabsSection.getBoundingClientRect();
+      var inside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+      if(inside && !tabsHovering){
+        tabsHovering = true;
+        pauseTabAutoplay();
+      } else if(!inside && tabsHovering){
+        tabsHovering = false;
+        resumeTabAutoplay();
+      }
+    }, { passive: true });
     tabsSection.addEventListener('focusin', pauseTabAutoplay);
     tabsSection.addEventListener('focusout', function(e){
       if(!tabsSection.contains(e.relatedTarget)){ resumeTabAutoplay(); }
@@ -2608,6 +2623,7 @@ function scrollToId(id){
   }
 
   restartTabAutoplay();
+
   /* ---------------- Sec_Company Carousel (one card per click, no loop) ---------------- */
   var track = document.getElementById('company-track');
   var prevBtn = document.getElementById('company-prev');
